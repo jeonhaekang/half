@@ -11,6 +11,7 @@ import { uuid } from "~/utils";
 
 const INIT_STORES = {
   data: {
+    marketId: "",
     name: "",
     address: ""
   },
