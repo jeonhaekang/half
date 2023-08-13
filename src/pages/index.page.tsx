@@ -6,12 +6,12 @@ import { MarketForm } from "~/components/Forms";
 import { useModal } from "~/components/Modals/Modal.hooks";
 import { useThemeStore } from "~/states/client";
 import { SquareKey, useGetItemsQuery, useUpdateInventoryMutate } from "~/states/server";
-import { Flex, FlexColumn, Position, Text } from "~/styles/mixins";
+import { FlexColumn, Position, Text } from "~/styles/mixins";
 import * as Styled from "./Home.styles";
 
 export default function Home() {
   const { theme, toggle } = useThemeStore();
-  const { toast } = useDialog();
+  const { toast, confirm } = useDialog();
   const { mount } = useModal();
   const queryClient = useQueryClient();
 
@@ -21,15 +21,17 @@ export default function Home() {
     onSuccess: async () => {
       await queryClient.invalidateQueries(SquareKey.getItems());
 
-      toast({ type: "success", message: "업데이트 성공" });
+      toast({ type: "success", message: "재고 동기화 성공" });
     },
     onError: () => {
-      toast({ type: "error", message: "업데이트 실패" });
+      toast({ type: "error", message: "재고 동기화 실패" });
     }
   });
 
-  const handleRefresh = () => {
-    updateInventoryMutate();
+  const handleRefresh = async () => {
+    if (await confirm({ message: "재고를 동기화 하시겠습니까?" })) {
+      updateInventoryMutate();
+    }
   };
 
   if (!items) return;
@@ -70,23 +72,18 @@ export default function Home() {
       </Styled.Table>
 
       <Position position="fixed" bottom={12} right={12}>
-        <Flex gap={12}>
-          <Button size="large" shape="circle" onClick={handleRefresh}>
-            <Icon name="refresh" width={32} height={32} />
-          </Button>
+        <Menu>
+          <MenuAnchor>
+            <Button size="large" shape="circle">
+              <Icon name="add" width={32} height={32} />
+            </Button>
+          </MenuAnchor>
 
-          <Menu>
-            <MenuAnchor>
-              <Button size="large" shape="circle">
-                <Icon name="add" width={32} height={32} />
-              </Button>
-            </MenuAnchor>
-
-            <MenuList vertical="top">
-              <MenuItem onClick={() => mount(<MarketForm />, { id: "market" })}>상가 등록</MenuItem>
-            </MenuList>
-          </Menu>
-        </Flex>
+          <MenuList vertical="top">
+            <MenuItem onClick={handleRefresh}>재고 동기화</MenuItem>
+            <MenuItem onClick={() => mount(<MarketForm />, { id: "market" })}>상가 등록</MenuItem>
+          </MenuList>
+        </Menu>
       </Position>
     </FlexColumn>
   );
