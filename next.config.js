@@ -1,7 +1,6 @@
 /* eslint-disable */
 /** @type {import('next').NextConfig} */
 
-
 const nextConfig = {
   reactStrictMode: true,
   webpack: (config) => {
@@ -14,7 +13,8 @@ const nextConfig = {
   },
   images: {
     domains: ["items-images-production.s3.us-west-2.amazonaws.com"]
-  }
+  },
+  pageExtensions: ["page.tsx"]
 };
 
 module.exports = nextConfig;
