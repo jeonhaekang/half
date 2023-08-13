@@ -1,7 +1,15 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { Button, Icon, Menu, MenuAnchor, MenuItem, MenuList, Toggle } from "~/components/Commons";
-import { HomeTable } from "~/components/Commons/Tables";
+import {
+  Button,
+  Icon,
+  ItemTable,
+  Menu,
+  MenuAnchor,
+  MenuItem,
+  MenuList,
+  Toggle
+} from "~/components/Commons";
 import { useDialog } from "~/components/Dialogs";
 import { useThemeStore } from "~/states/client";
 import { SquareKey, useUpdateInventoryMutate } from "~/states/server";
@@ -39,7 +47,7 @@ export default function Home() {
         <Toggle checked={theme} onChange={toggle} />
       </Styled.Header>
 
-      <HomeTable />
+      <ItemTable />
 
       <Position position="fixed" bottom={12} right={12}>
         <Menu>
