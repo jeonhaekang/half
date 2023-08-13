@@ -20,7 +20,9 @@ export const Toast = ({ id, message, type = "info" }: ToastProps) => {
       <FlexCenter gap={12}>
         <Icon name={type} />
 
-        <Text color="content1">{message}</Text>
+        <Text color="content1" whiteSpace="nowrap">
+          {message}
+        </Text>
 
         <IconButton
           name="close"

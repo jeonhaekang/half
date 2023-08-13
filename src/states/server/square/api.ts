@@ -1,4 +1,5 @@
 import { supabase } from "../config";
+import type { MarketInsert } from "./types";
 
 export const getItems = async () => {
   const { data: items, error } = await supabase
@@ -21,4 +22,10 @@ export const getVariations = async () => {
 
 export const updateInventory = async () => {
   await fetch("api/inventories").then((res) => res.json());
+};
+
+export const insertMarkets = async (markets: MarketInsert[]) => {
+  const { error } = await supabase.from("markets").insert(markets);
+
+  if (error) throw error;
 };
