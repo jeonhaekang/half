@@ -83,17 +83,20 @@ export interface Database {
       markets: {
         Row: {
           address: string
-          id: number
+          createdAt: string
+          id: string
           name: string
         }
         Insert: {
           address: string
-          id?: number
+          createdAt?: string
+          id?: string
           name: string
         }
         Update: {
           address?: string
-          id?: number
+          createdAt?: string
+          id?: string
           name?: string
         }
         Relationships: []
@@ -101,20 +104,23 @@ export interface Database {
       stores: {
         Row: {
           address: string
-          id: number
-          marketId: number
+          createdAt: string
+          id: string
+          marketId: string
           name: string
         }
         Insert: {
           address: string
-          id?: number
-          marketId: number
+          createdAt?: string
+          id?: string
+          marketId: string
           name: string
         }
         Update: {
           address?: string
-          id?: number
-          marketId?: number
+          createdAt?: string
+          id?: string
+          marketId?: string
           name?: string
         }
         Relationships: [

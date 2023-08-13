@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getItems } from "./api";
+import { getItems, getMarkets } from "./api";
 import { SquareKey } from "./key";
 
 export const useGetItemsQuery = () => {
   return useQuery({ queryKey: SquareKey.getItems(), queryFn: getItems });
+};
+
+export const useGetMarketsQuery = () => {
+  return useQuery({ queryKey: SquareKey.getMarkets(), queryFn: getMarkets, initialData: [] });
 };

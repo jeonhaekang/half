@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { position } from "~/styles/mixins";
+import { styleHelper } from "~/styles/utils";
 import type { WithTheme } from "~/types";
 import type { MenuListStyleProps } from "./MenuList.types";
 
@@ -27,9 +28,14 @@ const verticalStyle = ({
   }
 };
 
-const containerStyle = ({ theme: { colors, shadows, zIndex } }: WithTheme<MenuListStyleProps>) => {
+const containerStyle = ({
+  theme: { colors, shadows, zIndex },
+  full
+}: WithTheme<MenuListStyleProps>) => {
   return css`
     z-index: ${zIndex.menu};
+
+    ${full && styleHelper("width", "100%")}
 
     padding: 4px;
 

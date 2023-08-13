@@ -3,8 +3,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Button, Icon, Menu, MenuAnchor, MenuItem, MenuList, Toggle } from "~/components/Commons";
 import { useDialog } from "~/components/Dialogs";
-import { StoreForm } from "~/components/Forms";
-import { useModal } from "~/components/Modals/Modal.hooks";
 import { useThemeStore } from "~/states/client";
 import { SquareKey, useGetItemsQuery, useUpdateInventoryMutate } from "~/states/server";
 import { FlexColumn, Position, Text } from "~/styles/mixins";
@@ -13,7 +11,6 @@ import * as Styled from "./Home.styles";
 export default function Home() {
   const { theme, toggle } = useThemeStore();
   const { toast, confirm } = useDialog();
-  const { mount } = useModal();
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -84,7 +81,7 @@ export default function Home() {
           <MenuList vertical="top">
             <MenuItem onClick={handleRefresh}>재고 동기화</MenuItem>
             <MenuItem onClick={() => router.push("/market")}>상가 등록</MenuItem>
-            <MenuItem onClick={() => mount(<StoreForm />, { id: "store" })}>상점 등록</MenuItem>
+            <MenuItem onClick={() => router.push("/store")}>상점 등록</MenuItem>
           </MenuList>
         </Menu>
       </Position>

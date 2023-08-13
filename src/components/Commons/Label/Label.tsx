@@ -7,6 +7,7 @@ export interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   desc?: string;
   required?: boolean;
   direction?: "column" | "row";
+  full?: boolean;
 }
 
 export const Label = ({
@@ -14,10 +15,11 @@ export const Label = ({
   title,
   desc,
   required,
-  direction
+  direction,
+  ...props
 }: PropsWithElement<LabelProps>) => {
   return (
-    <Styled.Label direction={direction}>
+    <Styled.Label direction={direction} {...props}>
       {title && <Styled.Title required={required}>{title}</Styled.Title>}
 
       {children}

@@ -1,79 +1,88 @@
-import { useMutation } from "@tanstack/react-query";
-import type { FormEvent } from "react";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
 import { Button, Input, Label, Menu, MenuAnchor, MenuItem, MenuList } from "~/components/Commons";
-import { useDialog } from "~/components/Dialogs";
-import { useModal } from "~/components/Modals/Modal.hooks";
 import { useInputForm } from "~/hooks";
-import { supabase } from "~/states/server";
-import { FlexColumn, Text } from "~/styles/mixins";
+import type { MarketRow } from "~/states/server";
+import { useGetMarketsQuery } from "~/states/server";
+import { flex } from "~/styles/mixins";
 
-export const StoreForm = () => {
-  const { toast } = useDialog();
-  const { unmount } = useModal();
+export interface StoreData {
+  data: {
+    marketId: string;
+    name: string;
+    address: string;
+  };
+  isValid: boolean;
+}
 
-  const { formData, register, isValid } = useInputForm({ name: "", address: "" });
+export const StoreForm = ({
+  onChange,
+  onRemove
+}: {
+  onChange: (market: StoreData) => void;
+  onRemove?: VoidFunction;
+}) => {
+  const [market, setMarket] = useState<MarketRow | null>(null);
 
-  const { mutate } = useMutation({
-    mutationFn: async () => {
-      const { error } = await supabase.from("markets").insert(formData);
-
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      toast({ type: "success", message: "상가 등록 성공" });
-
-      unmount("market");
-    },
-    onError: () => {
-      toast({ type: "error", message: "상가 등록 실패" });
-    }
+  const { data, register, isValid } = useInputForm({
+    name: "",
+    address: ""
   });
 
-  const onSubmitHandler = (event: FormEvent<HTMLDivElement>) => {
-    event.preventDefault();
+  const { data: markets } = useGetMarketsQuery();
 
-    mutate();
-  };
+  useEffect(() => {
+    const updatedData = {
+      data: {
+        ...data,
+        marketId: market?.id ?? ""
+      },
+      isValid: isValid && !!market
+    };
+
+    onChange(updatedData);
+  }, [data, isValid, market, onChange]);
 
   return (
-    <FlexColumn as="form" gap={12} onSubmit={onSubmitHandler}>
-      <Text size="heading3">상점 등록</Text>
-
+    <Container>
       <Menu>
         <MenuAnchor>
-          <Button>ddd</Button>
-        </MenuAnchor>
-
-        <MenuList>
-          <MenuItem>ㅇㅇㅇㅇ</MenuItem>
-          <MenuItem>ㅇㅇㅇㅇ</MenuItem>
-          <MenuItem>ㅇㅇㅇㅇ</MenuItem>
-        </MenuList>
-      </Menu>
-
-      <Menu>
-        <MenuAnchor>
-          <Label title="상가" required>
-            <Input readOnly />
+          <Label title="상가" full required>
+            <Input placeholder="선택해주세요" value={market?.name ?? ""} readOnly />
           </Label>
         </MenuAnchor>
 
-        <MenuList>
-          <MenuItem>ㅇㅇㅇㅇ</MenuItem>
-          <MenuItem>ㅇㅇㅇㅇ</MenuItem>
-          <MenuItem>ㅇㅇㅇㅇ</MenuItem>
+        <MenuList full>
+          {markets.map((market) => (
+            <MenuItem key={market.id} onClick={() => setMarket(market)}>
+              {market.name}
+            </MenuItem>
+          ))}
         </MenuList>
       </Menu>
 
-      <Label title="이름" desc="상호가 아닌 상가를 입력해주세요." required>
-        <Input {...register("name")} placeholder="ex) 디오트" required />
+      <Label title="이름" required>
+        <Input {...register("name")} placeholder="ex) 피카소" required />
       </Label>
 
-      <Label title="주소" required>
-        <Input {...register("address")} placeholder="ex) 서울 중구 다산로 293" required />
+      <Label title="싱세 주소" required>
+        <Input {...register("address")} placeholder="ex) 평화시장 어딘가" required />
       </Label>
 
-      <Button disabled={!isValid}>등록</Button>
-    </FlexColumn>
+      <Button variant="secondary" onClick={onRemove}>
+        삭제
+      </Button>
+    </Container>
   );
 };
+
+export const Container = styled.div`
+  ${flex.column({ gap: 12 })}
+
+  padding: 12px 0;
+
+  ${({ theme: { colors } }) => css`
+    border-bottom: 1px solid ${colors.border};
+  `};
+`;

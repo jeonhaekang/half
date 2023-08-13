@@ -1,1 +1,1 @@
-export { StoreForm } from "./StoreForm";
+export * from "./StoreForm";
