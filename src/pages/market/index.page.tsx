@@ -1,4 +1,7 @@
 import styled from "@emotion/styled";
+import type { GetServerSidePropsContext } from "next";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { Button } from "~/components/Commons";
@@ -19,18 +22,19 @@ const INIT_MARKET = {
 
 const Market = () => {
   const { toast } = useDialog();
+  const { t } = useTranslation("market");
   const router = useRouter();
 
   const [markets, setMarkets] = useState(new Map([[uuid(), INIT_MARKET]]));
 
   const { mutate: insertMarketsMutate } = useInsertMarketsMutate({
     onSuccess: () => {
-      toast({ type: "success", message: "상가 등록에 성공하였습니다." });
+      toast({ type: "success", message: t("addMarketSuccessMessage") });
 
       router.replace("/");
     },
     onError: () => {
-      toast({ type: "error", message: "상가 등록에 실패하였습니다." });
+      toast({ type: "error", message: t("addMarketErrorMessage") });
     }
   });
 
@@ -45,7 +49,7 @@ const Market = () => {
 
   const handleRemoveMarket = (id: string) => {
     if (markets.size <= 1) {
-      return toast({ type: "warning", message: "1개 이상의 상가가 필요합니다." });
+      return toast({ type: "warning", message: t("requiredOneMarket") });
     }
 
     setMarkets((prevMarket) => {
@@ -79,13 +83,13 @@ const Market = () => {
 
       insertMarketsMutate(_markets);
     } else {
-      toast({ type: "warning", message: "모든 항목을 입력해주세요." });
+      toast({ type: "warning", message: t("insertAllData") });
     }
   };
 
   return (
     <Container>
-      <Text size="heading3">상가 등록</Text>
+      <Text size="heading3">{t("addMarketTitle")}</Text>
 
       {[...markets.keys()].map((id) => (
         <MarketForm
@@ -96,15 +100,23 @@ const Market = () => {
       ))}
 
       <Button variant="secondary" type="button" onClick={handleAddMarket}>
-        목록 추가
+        {t("addMarketItem")}
       </Button>
 
-      <Button onClick={handleInsertMarkets}>등록 하기</Button>
+      <Button onClick={handleInsertMarkets}>{t("addMarket")}</Button>
     </Container>
   );
 };
 
 export default Market;
+
+export async function getServerSideProps({ locale }: GetServerSidePropsContext) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ["common", "market"]))
+    }
+  };
+}
 
 export const Container = styled.div`
   ${flex.column({ gap: 16 })};

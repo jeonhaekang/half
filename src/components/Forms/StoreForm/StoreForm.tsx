@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { Button, Input, Label, Menu, MenuAnchor, MenuItem, MenuList } from "~/components/Commons";
 import { useInputForm } from "~/hooks";
@@ -23,6 +24,8 @@ export const StoreForm = ({
   onChange: (market: StoreData) => void;
   onRemove?: VoidFunction;
 }) => {
+  const { t } = useTranslation("store");
+
   const [market, setMarket] = useState<MarketRow | null>(null);
 
   const { data, register, isValid } = useInputForm({
@@ -48,8 +51,12 @@ export const StoreForm = ({
     <Container>
       <Menu>
         <MenuAnchor>
-          <Label title="상가" full required>
-            <Input placeholder="선택해주세요" value={market?.name ?? ""} readOnly />
+          <Label title={t("storeFormMarket")} full required>
+            <Input
+              placeholder={t("storeFormTitlePlaceholder")}
+              value={market?.name ?? ""}
+              readOnly
+            />
           </Label>
         </MenuAnchor>
 
@@ -62,16 +69,16 @@ export const StoreForm = ({
         </MenuList>
       </Menu>
 
-      <Label title="이름" required>
+      <Label title={t("storeFormName")} required>
         <Input {...register("name")} placeholder="ex) 피카소" required />
       </Label>
 
-      <Label title="싱세 주소" required>
+      <Label title={t("storeFormAddress")} required>
         <Input {...register("address")} placeholder="ex) 평화시장 어딘가" required />
       </Label>
 
       <Button variant="secondary" onClick={onRemove}>
-        삭제
+        {t("storeFormDelete")}
       </Button>
     </Container>
   );

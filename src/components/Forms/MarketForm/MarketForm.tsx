@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useTranslation } from "next-i18next";
 import { useEffect } from "react";
 import { Button, Input, Label } from "~/components/Commons";
 import { useInputForm } from "~/hooks";
@@ -20,6 +21,8 @@ export const MarketForm = ({
   onChange: (market: MarketData) => void;
   onRemove?: VoidFunction;
 }) => {
+  const { t } = useTranslation("market");
+
   const { data, register, isValid } = useInputForm({ name: "", address: "" });
 
   useEffect(() => {
@@ -28,16 +31,16 @@ export const MarketForm = ({
 
   return (
     <Container>
-      <Label title="이름" desc="상호가 아닌 상가를 입력해주세요." required>
+      <Label title={t("marketNameTitle")} required>
         <Input {...register("name")} placeholder="ex) 디오트" required />
       </Label>
 
-      <Label title="주소" required>
+      <Label title={t("marketAddressTitle")} required>
         <Input {...register("address")} placeholder="ex) 서울 중구 다산로 293" required />
       </Label>
 
       <Button variant="secondary" onClick={onRemove}>
-        삭제
+        {t("marketItemDelete")}
       </Button>
     </Container>
   );
