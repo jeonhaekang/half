@@ -1,30 +1,18 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Children, type PropsWithChildren } from "react";
-import { grid, position } from "~/styles/mixins";
+import { type PropsWithChildren } from "react";
+import { position } from "~/styles/mixins";
 
 export const Row = ({ children, title = false }: PropsWithChildren<{ title?: boolean }>) => {
-  const columnCount = Children.toArray(children).length;
-
-  return (
-    <GridRow columnCount={columnCount} isTitle={title}>
-      {children}
-    </GridRow>
-  );
+  return <Container isTitle={title}>{children}</Container>;
 };
 
-const GridRow = styled.div<{ columnCount: number; isTitle: boolean }>`
-  ${({ theme: { colors }, columnCount, isTitle }) => css`
+const Container = styled.div<{ isTitle: boolean }>`
+  ${({ theme: { colors }, isTitle }) => css`
     ${isTitle &&
     css`
       ${position.sticky({ top: 0 })}
     `}
-
-    ${grid({ column: columnCount })}
-    justify-items: center;
-    align-items: center;
-
-    min-height: 40px;
 
     background-color: ${colors.backgroundPrimary};
 

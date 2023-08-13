@@ -36,7 +36,7 @@ const App = ({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedSta
 export default appWithTranslation(App);
 
 export const Container = styled.div`
-  ${size({ width: "100%", maxWidth: 1300 })}
+  ${size({ width: "100%", maxWidth: 800 })}
 
   margin: 0 auto;
 `;
