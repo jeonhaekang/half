@@ -17,6 +17,7 @@ export const Header = () => {
       <FlexCenter gap={12}>
         <Button
           size="small"
+          variant="secondary"
           onClick={() => {
             router.push(router.pathname, router.pathname, { locale: "ko" });
           }}
@@ -26,6 +27,7 @@ export const Header = () => {
 
         <Button
           size="small"
+          variant="secondary"
           onClick={() => {
             router.push(router.pathname, router.pathname, { locale: "jp" });
           }}
