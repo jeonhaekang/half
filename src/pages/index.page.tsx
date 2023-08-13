@@ -1,10 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { Button, Icon, Menu, MenuAnchor, MenuItem, MenuList, Toggle } from "~/components/Commons";
+import { HomeTable } from "~/components/Commons/Tables";
 import { useDialog } from "~/components/Dialogs";
 import { useThemeStore } from "~/states/client";
-import { SquareKey, useGetItemsQuery, useUpdateInventoryMutate } from "~/states/server";
+import { SquareKey, useUpdateInventoryMutate } from "~/states/server";
 import { FlexColumn, Position, Text } from "~/styles/mixins";
 import * as Styled from "./Home.styles";
 
@@ -13,8 +13,6 @@ export default function Home() {
   const { toast, confirm } = useDialog();
   const queryClient = useQueryClient();
   const router = useRouter();
-
-  const { data: items } = useGetItemsQuery();
 
   const { mutate: updateInventoryMutate } = useUpdateInventoryMutate({
     onSuccess: async () => {
@@ -33,8 +31,6 @@ export default function Home() {
     }
   };
 
-  if (!items) return;
-
   return (
     <FlexColumn>
       <Styled.Header>
@@ -43,32 +39,7 @@ export default function Home() {
         <Toggle checked={theme} onChange={toggle} />
       </Styled.Header>
 
-      <Styled.Table>
-        <Styled.TitleRow>
-          <Text>이미지</Text>
-          <Text>품명</Text>
-          <Text>구분</Text>
-          <Text>가격</Text>
-          <Text>재고</Text>
-        </Styled.TitleRow>
-
-        {items.map((item) =>
-          item.variations.map((variation) => (
-            <Styled.Row key={`${item.id}_${variation.id}`}>
-              {item.images.length > 0 ? (
-                <Image src={item.images[0].imageUrl} alt="상품 이미지" width={40} height={40} />
-              ) : (
-                <Text>없음</Text>
-              )}
-
-              <Text>{item.name}</Text>
-              <Text>{variation.name}</Text>
-              <Text>{variation.price}</Text>
-              <Text>{variation.quantity ?? 0}</Text>
-            </Styled.Row>
-          ))
-        )}
-      </Styled.Table>
+      <HomeTable />
 
       <Position position="fixed" bottom={12} right={12}>
         <Menu>
