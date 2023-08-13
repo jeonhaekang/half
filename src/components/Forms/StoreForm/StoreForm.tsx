@@ -77,7 +77,7 @@ export const StoreForm = ({
   );
 };
 
-export const Container = styled.div`
+const Container = styled.div`
   ${flex.column({ gap: 12 })}
 
   padding: 12px 0;
