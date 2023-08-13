@@ -1,5 +1,3 @@
-"use client";
-
 import { cloneElement } from "react";
 import type { PropsWithElement } from "~/types";
 import { useMenuContext } from "../Menu";

@@ -4,6 +4,7 @@ import type { DehydratedState } from "@tanstack/react-query";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import { Overlay } from "~/components";
 import { GlobalStyle } from "~/styles/GlobalStyle";
 import { size } from "~/styles/mixins";
@@ -20,6 +21,9 @@ const App = ({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedSta
         <GlobalStyle />
         <Hydrate state={pageProps.dehydratedState}>
           <Container>
+            <Head>
+              <title>이분의일</title>
+            </Head>
             <Component {...pageProps} />
           </Container>
         </Hydrate>

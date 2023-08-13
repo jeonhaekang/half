@@ -25,7 +25,7 @@ export const Outer = styled.div`
 
 export const Inner = styled.div<ModalStyleProps>`
   ${({ theme: { colors, shadows }, width = 600 }) => css`
-    ${size({ width, maxWidth: "90%", maxHeight: "80%" })}
+    ${size({ width, maxWidth: "95%", maxHeight: "90%" })}
 
     padding: 16px;
 

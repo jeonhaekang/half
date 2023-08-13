@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { Button, Icon, Menu, MenuAnchor, MenuItem, MenuList, Toggle } from "~/components/Commons";
 import { useDialog } from "~/components/Dialogs";
-import { MarketForm } from "~/components/Forms";
+import { MarketForm, StoreForm } from "~/components/Forms";
 import { useModal } from "~/components/Modals/Modal.hooks";
 import { useThemeStore } from "~/states/client";
 import { SquareKey, useGetItemsQuery, useUpdateInventoryMutate } from "~/states/server";
@@ -82,6 +82,7 @@ export default function Home() {
           <MenuList vertical="top">
             <MenuItem onClick={handleRefresh}>재고 동기화</MenuItem>
             <MenuItem onClick={() => mount(<MarketForm />, { id: "market" })}>상가 등록</MenuItem>
+            <MenuItem onClick={() => mount(<StoreForm />, { id: "store" })}>상점 등록</MenuItem>
           </MenuList>
         </Menu>
       </Position>
