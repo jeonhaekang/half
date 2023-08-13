@@ -1,23 +1,35 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { Button, Icon, Menu, MenuAnchor, MenuItem, MenuList, Toggle } from "~/components/Commons";
 import { useDialog } from "~/components/Dialogs";
 import { MarketForm } from "~/components/Forms";
 import { useModal } from "~/components/Modals/Modal.hooks";
 import { useThemeStore } from "~/states/client";
-import { getItems } from "~/states/server/item";
+import { SquareKey, useGetItemsQuery, useUpdateInventoryMutate } from "~/states/server";
 import { Flex, FlexColumn, Position, Text } from "~/styles/mixins";
 import * as Styled from "./Home.styles";
 
 export default function Home() {
   const { theme, toggle } = useThemeStore();
-  const { alert, confirm, toast } = useDialog();
+  const { toast } = useDialog();
   const { mount } = useModal();
+  const queryClient = useQueryClient();
 
-  const { data: items } = useQuery({ queryKey: ["getItems"], queryFn: getItems });
+  const { data: items } = useGetItemsQuery();
 
-  const handleRefresh = async () => {
-    await fetch("api/inventories", { method: "POST" }).then((res) => res.json());
+  const { mutate: updateInventoryMutate } = useUpdateInventoryMutate({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(SquareKey.getItems());
+
+      toast({ type: "success", message: "업데이트 성공" });
+    },
+    onError: () => {
+      toast({ type: "error", message: "업데이트 실패" });
+    }
+  });
+
+  const handleRefresh = () => {
+    updateInventoryMutate();
   };
 
   if (!items) return;
@@ -59,14 +71,14 @@ export default function Home() {
 
       <Position position="fixed" bottom={12} right={12}>
         <Flex gap={12}>
-          <Button shape="circle" onClick={handleRefresh}>
-            <Icon name="refresh" width={30} height={30} />
+          <Button size="large" shape="circle" onClick={handleRefresh}>
+            <Icon name="refresh" width={32} height={32} />
           </Button>
 
           <Menu>
             <MenuAnchor>
-              <Button shape="circle">
-                <Icon name="add" width={30} height={30} />
+              <Button size="large" shape="circle">
+                <Icon name="add" width={32} height={32} />
               </Button>
             </MenuAnchor>
 

@@ -1,7 +1,10 @@
 import { supabase } from "../config";
 
 export const getItems = async () => {
-  const { data: items, error } = await supabase.from("items").select("*, images (*), variations (*)").order("name");
+  const { data: items, error } = await supabase
+    .from("items")
+    .select("*, images (*), variations (*)")
+    .order("name");
 
   if (error) throw error;
 
@@ -14,4 +17,8 @@ export const getVariations = async () => {
   if (error) throw error;
 
   return variations;
+};
+
+export const updateInventory = async () => {
+  await fetch("api/inventories").then((res) => res.json());
 };
