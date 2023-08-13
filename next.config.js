@@ -14,7 +14,7 @@ const nextConfig = {
   images: {
     domains: ["items-images-production.s3.us-west-2.amazonaws.com"]
   },
-  pageExtensions: ["page.tsx"]
+  pageExtensions: ["page.tsx", "page.ts", "route.ts"]
 };
 
 module.exports = nextConfig;
