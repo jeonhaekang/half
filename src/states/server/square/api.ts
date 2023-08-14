@@ -1,17 +1,6 @@
 import { supabase } from "../config";
 import type { MarketInsert, StoreInsert } from "./types";
 
-export const getItems = async () => {
-  const { data: items, error } = await supabase
-    .from("items")
-    .select("*, images (*), variations (*)")
-    .order("name");
-
-  if (error) throw error;
-
-  return items;
-};
-
 export const getMarkets = async () => {
   const { data: markets, error } = await supabase.from("markets").select("*");
 
@@ -21,7 +10,7 @@ export const getMarkets = async () => {
 };
 
 export const getVariations = async () => {
-  const { data: variations, error } = await supabase.from("variations").select("*");
+  const { data: variations, error } = await supabase.rpc("variations").order("name");
 
   if (error) throw error;
 

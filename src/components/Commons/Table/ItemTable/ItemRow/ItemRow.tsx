@@ -1,17 +1,12 @@
 import Image from "next/image";
 import { Row } from "~/components/Commons";
 import { useBoolean } from "~/hooks";
-import type { VariationRow } from "~/states/server";
+import type { Variations } from "~/states/server";
 import { Flex, Text } from "~/styles/mixins";
+import type { OneOf } from "~/types";
 import * as Styled from "./ItemRow.styles";
 
-interface ItemRowProps {
-  name: string;
-  imageUrl?: string;
-  variation: VariationRow;
-}
-
-export const ItemRow = ({ name, imageUrl, variation }: ItemRowProps) => {
+export const ItemRow = ({ name, variation, price, quantity, imageUrl }: OneOf<Variations>) => {
   const [isOpen, setIsOpen] = useBoolean(false);
 
   return (
@@ -29,9 +24,9 @@ export const ItemRow = ({ name, imageUrl, variation }: ItemRowProps) => {
           )}
         </Flex>
         <Text>{name}</Text>
-        <Text>{variation.name}</Text>
-        <Text>{variation.price}</Text>
-        <Text>{variation.quantity}</Text>
+        <Text>{variation}</Text>
+        <Text>{price}</Text>
+        <Text>{quantity}</Text>
       </Styled.ItemGrid>
 
       {imageUrl && (

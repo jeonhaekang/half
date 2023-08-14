@@ -171,7 +171,17 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      variations: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          name: string
+          variation: string
+          price: number
+          quantity: number
+          imageUrl: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

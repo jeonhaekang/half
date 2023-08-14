@@ -1,6 +1,6 @@
 const SQUARE_KEY = "SQUARE";
 
 export const SquareKey = {
-  getItems: () => [SQUARE_KEY, "getItems"] as const,
+  getVariations: () => [SQUARE_KEY, "getVariations"] as const,
   getMarkets: () => [SQUARE_KEY, "getMarkets"] as const
 } as const;

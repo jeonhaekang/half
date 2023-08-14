@@ -11,8 +11,10 @@ const Container = styled.div<{ isTitle: boolean }>`
   ${({ theme: { colors }, isTitle }) => css`
     ${isTitle &&
     css`
-      ${position.sticky({ top: 0 })}
-    `}
+      ${position.sticky({ top: 0 })};
+    `};
+
+    user-select: none;
 
     background-color: ${colors.backgroundPrimary};
 

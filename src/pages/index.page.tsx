@@ -1,7 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-import type { GetServerSidePropsContext } from "next";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import {
   Button,
@@ -21,21 +18,20 @@ export default function Home() {
   const { toast, confirm } = useDialog();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { t } = useTranslation("common");
 
   const { mutate: updateInventoryMutate } = useUpdateInventoryMutate({
     onSuccess: async () => {
-      await queryClient.invalidateQueries(SquareKey.getItems());
+      await queryClient.invalidateQueries(SquareKey.getVariations());
 
-      toast({ type: "success", message: t("stockSyncSuccessMessage") });
+      toast({ type: "success", message: "재고 동기화에 성공하였습니다." });
     },
     onError: () => {
-      toast({ type: "error", message: t("stockSyncErrorMessage") });
+      toast({ type: "error", message: "재고 동기화에 실패하였습니다." });
     }
   });
 
   const handleRefresh = async () => {
-    if (await confirm({ message: t("stockSyncConfirmMessage") })) {
+    if (await confirm({ message: "재고를 동기화 할까요?" })) {
       updateInventoryMutate();
     }
   };
@@ -55,20 +51,12 @@ export default function Home() {
           </MenuAnchor>
 
           <MenuList vertical="top">
-            <MenuItem onClick={handleRefresh}>{t("stockSync")}</MenuItem>
-            <MenuItem onClick={() => router.push("/market")}>{t("addMarket")}</MenuItem>
-            <MenuItem onClick={() => router.push("/store")}>{t("addStore")}</MenuItem>
+            <MenuItem onClick={handleRefresh}>재고 동기화</MenuItem>
+            <MenuItem onClick={() => router.push("/market")}>상가 등록</MenuItem>
+            <MenuItem onClick={() => router.push("/store")}>상점 등록</MenuItem>
           </MenuList>
         </Menu>
       </Position>
     </FlexColumn>
   );
-}
-
-export async function getServerSideProps({ locale }: GetServerSidePropsContext) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale as string, ["common"]))
-    }
-  };
 }

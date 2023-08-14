@@ -1,7 +1,7 @@
 import type { Database } from "~/types/supabase";
-import type { getItems } from "./api";
+import type { getVariations } from "./api";
 
-export type Items = Awaited<ReturnType<typeof getItems>>;
+export type Variations = Awaited<ReturnType<typeof getVariations>>;
 
 export type Table = Database["public"]["Tables"];
 

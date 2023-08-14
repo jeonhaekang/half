@@ -1,1 +1,12 @@
-{"marketNameTitle":"市場名","marketAddressTitle":"アドレス","marketItemDelete":"削除","addMarketSuccessMessage":"市場登録に成功しました","addMarketErrorMessage":"市場登録に失敗しました","requiredOneMarket":"市場が一個以上必要です","insertAllData":"全部入力してください","addMarketTitle":"登録","addMarketItem":"市場追加","addMarket":"市場登録"}
+{
+  "marketNameTitle": "市場名",
+  "marketAddressTitle": "アドレス",
+  "marketItemDelete": "削除",
+  "addMarketSuccessMessage": "市場登録に成功しました",
+  "addMarketErrorMessage": "市場登録に失敗しました",
+  "requiredOneMarket": "市場が一個以上必要です",
+  "insertAllData": "全部入力してください",
+  "addMarketTitle": "登録",
+  "addMarketItem": "市場追加",
+  "addMarket": "市場登録"
+}

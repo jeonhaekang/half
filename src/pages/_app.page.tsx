@@ -2,7 +2,6 @@ import { ThemeProvider } from "@emotion/react";
 import styled from "@emotion/styled";
 import type { DehydratedState } from "@tanstack/react-query";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Overlay } from "~/components";
@@ -33,7 +32,7 @@ const App = ({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedSta
   );
 };
 
-export default appWithTranslation(App);
+export default App;
 
 export const Container = styled.div`
   ${size({ width: "100%", maxWidth: 800 })}

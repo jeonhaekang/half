@@ -1,7 +1,4 @@
 import styled from "@emotion/styled";
-import type { GetServerSidePropsContext } from "next";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { Button } from "~/components/Commons";
@@ -23,19 +20,18 @@ const INIT_STORES = {
 
 const Stores = () => {
   const { toast } = useDialog();
-  const { t } = useTranslation("store");
   const router = useRouter();
 
   const [stores, setStores] = useState(new Map([[uuid(), INIT_STORES]]));
 
   const { mutate: insertStoresMutate } = useInsertStoresMutate({
     onSuccess: () => {
-      toast({ type: "success", message: t("addStoreSuccessMessage") });
+      toast({ type: "success", message: "상점 등록에 성공하였습니다." });
 
       router.replace("/");
     },
     onError: () => {
-      toast({ type: "error", message: t("addStoreErrorMessage") });
+      toast({ type: "error", message: "상점 등록에 실패하였습니다." });
     }
   });
 
@@ -50,7 +46,7 @@ const Stores = () => {
 
   const handleRemoveStores = (id: string) => {
     if (stores.size <= 1) {
-      return toast({ type: "warning", message: "requiredOneStore" });
+      return toast({ type: "warning", message: "최소 한개 이상의 상점이 필요합니다." });
     }
 
     setStores((prevStores) => {
@@ -84,13 +80,13 @@ const Stores = () => {
 
       insertStoresMutate(_stores);
     } else {
-      toast({ type: "warning", message: "insertAllData" });
+      toast({ type: "warning", message: "모든 정보를 입력해주세요." });
     }
   };
 
   return (
     <Container>
-      <Text size="heading3">{t("addStoreTitle")}</Text>
+      <Text size="heading3">상점 등록</Text>
 
       {[...stores.keys()].map((id) => (
         <StoreForm
@@ -101,23 +97,15 @@ const Stores = () => {
       ))}
 
       <Button variant="secondary" type="button" onClick={handleAddStores}>
-        {t("addStoreItem")}
+        상점 추가
       </Button>
 
-      <Button onClick={handleInsertStores}>{t("addStore")}</Button>
+      <Button onClick={handleInsertStores}>등록</Button>
     </Container>
   );
 };
 
 export default Stores;
-
-export async function getServerSideProps({ locale }: GetServerSidePropsContext) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale as string, ["common", "store"]))
-    }
-  };
-}
 
 export const Container = styled.div`
   ${flex.column({ gap: 16 })};
