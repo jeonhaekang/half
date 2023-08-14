@@ -16,7 +16,10 @@ export const getVariations = async ({
   column: keyof Variation;
   ascending: boolean;
 }) => {
-  const { data: variations, error } = await supabase.rpc("variations").order(column, { ascending });
+  const { data: variations, error } = await supabase
+    .rpc("variations")
+    .order(column, { ascending })
+    .order("name");
 
   if (error) throw error;
 
