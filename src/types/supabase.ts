@@ -67,16 +67,19 @@ export interface Database {
           createdAt: string
           id: string
           name: string
+          storeId: string | null
         }
         Insert: {
           createdAt?: string
           id: string
           name: string
+          storeId?: string | null
         }
         Update: {
           createdAt?: string
           id?: string
           name?: string
+          storeId?: string | null
         }
         Relationships: []
       }
@@ -171,11 +174,23 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      variations: {
+      stores: {
         Args: Record<PropertyKey, never>
         Returns: {
           id: string
           name: string
+          address: string
+          marketName: string
+          marketAddress: string
+        }[]
+      }
+      variations: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          itemId: string
+          name: string
+          storeId: string
           variation: string
           price: number
           quantity: number

@@ -19,8 +19,6 @@ export default function Home() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  console.log(router.query);
-
   const { mutate: updateInventoryMutate } = useUpdateInventoryMutate({
     onSuccess: async () => {
       const { column = "name", ascending = true } = router.query as {

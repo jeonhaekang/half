@@ -1,7 +1,10 @@
 import type { Database } from "~/types/supabase";
 
 export type Variations = Database["public"]["Functions"]["variations"]["Returns"];
-export type Variation = Database["public"]["Functions"]["variations"]["Returns"][0];
+export type Variation = Variations[0];
+
+export type Stores = Database["public"]["Functions"]["stores"]["Returns"];
+export type Store = Stores[0];
 
 export type Table = Database["public"]["Tables"];
 

@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Variation, Variations, useGetVariationsQuery } from "~/states/server";
+import { Variation, useGetVariationsQuery } from "~/states/server";
 import { FlexColumn, Grid, Text } from "~/styles/mixins";
-import { OneOf } from "~/types";
 import { Row } from "../Row";
 import { ItemRow } from "./ItemRow";
 
@@ -16,7 +15,7 @@ export const ItemTable = () => {
 
   const { data: items } = useGetVariationsQuery(order);
 
-  const handleOrder = (column: keyof OneOf<Variations>) => {
+  const handleOrder = (column: keyof Variation) => {
     setOrder((prevOrder) => ({ ...prevOrder, column, ascending: !prevOrder.ascending }));
   };
 
@@ -26,7 +25,7 @@ export const ItemTable = () => {
 
   return (
     <FlexColumn>
-      <Row title>
+      <Row isTitle>
         <Grid column={5} align="center" justify="center" style={{ height: "40px" }}>
           <Text>이미지</Text>
           <Text onClick={() => handleOrder("name")}>품명</Text>

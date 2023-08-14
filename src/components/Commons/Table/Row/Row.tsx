@@ -1,10 +1,18 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { type PropsWithChildren } from "react";
+import { HTMLAttributes, type PropsWithChildren } from "react";
 import { position } from "~/styles/mixins";
 
-export const Row = ({ children, title = false }: PropsWithChildren<{ title?: boolean }>) => {
-  return <Container isTitle={title}>{children}</Container>;
+export const Row = ({
+  children,
+  isTitle = false,
+  ...props
+}: PropsWithChildren<{ isTitle?: boolean }> & HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <Container isTitle={isTitle} {...props}>
+      {children}
+    </Container>
+  );
 };
 
 const Container = styled.div<{ isTitle: boolean }>`
