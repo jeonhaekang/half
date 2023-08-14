@@ -11,7 +11,7 @@ import {
 } from "~/components/Commons";
 import { useDialog } from "~/components/Dialogs";
 import { Header } from "~/components/Shared";
-import { SquareKey, useUpdateInventoryMutate } from "~/states/server";
+import { SquareKey, Variation, useUpdateInventoryMutate } from "~/states/server";
 import { FlexColumn, Position } from "~/styles/mixins";
 
 export default function Home() {
@@ -19,9 +19,16 @@ export default function Home() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
+  console.log(router.query);
+
   const { mutate: updateInventoryMutate } = useUpdateInventoryMutate({
     onSuccess: async () => {
-      await queryClient.invalidateQueries(SquareKey.getVariations());
+      const { column = "name", ascending = true } = router.query as {
+        column?: keyof Variation;
+        ascending?: boolean;
+      };
+
+      await queryClient.invalidateQueries(SquareKey.getVariations({ column, ascending }));
 
       toast({ type: "success", message: "재고 동기화에 성공하였습니다." });
     },

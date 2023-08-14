@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Variation, Variations, useGetVariationsQuery } from "~/states/server";
 import { FlexColumn, Grid, Text } from "~/styles/mixins";
 import { OneOf } from "~/types";
@@ -6,6 +7,8 @@ import { Row } from "../Row";
 import { ItemRow } from "./ItemRow";
 
 export const ItemTable = () => {
+  const router = useRouter();
+
   const [order, setOrder] = useState<{ column: keyof Variation; ascending: boolean }>({
     column: "name",
     ascending: true
@@ -16,6 +19,10 @@ export const ItemTable = () => {
   const handleOrder = (column: keyof OneOf<Variations>) => {
     setOrder((prevOrder) => ({ ...prevOrder, column, ascending: !prevOrder.ascending }));
   };
+
+  useEffect(() => {
+    router.replace({ pathname: router.pathname, query: order });
+  }, [order]);
 
   return (
     <FlexColumn>
