@@ -1,1 +1,0 @@
-export { TinderCard } from "./TinderCard";

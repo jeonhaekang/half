@@ -1,41 +1,24 @@
-import { ThemeProvider } from "@emotion/react";
-import styled from "@emotion/styled";
+import { ChakraProvider } from "@chakra-ui/react";
 import type { DehydratedState } from "@tanstack/react-query";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { Overlay } from "~/components";
-import { GlobalStyle } from "~/styles/GlobalStyle";
-import { size } from "~/styles/mixins";
-import { useApp } from "./_app.hooks";
 
 export const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>) => {
-  const { currentTheme } = useApp();
-
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={currentTheme}>
-        <GlobalStyle />
-        <Hydrate state={pageProps.dehydratedState}>
-          <Container>
-            <Head>
-              <title>이분의일</title>
-            </Head>
-            <Component {...pageProps} />
-          </Container>
-        </Hydrate>
-        <Overlay />
-      </ThemeProvider>
+      <Hydrate state={pageProps.dehydratedState}>
+        <ChakraProvider>
+          <Head>
+            <title>이분의일</title>
+          </Head>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </Hydrate>
     </QueryClientProvider>
   );
 };
 
 export default App;
-
-export const Container = styled.div`
-  ${size({ width: "100%", maxWidth: 800 })}
-
-  margin: 0 auto;
-`;

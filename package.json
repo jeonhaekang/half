@@ -10,11 +10,15 @@
     "gen-types": "supabase gen types typescript --linked > src/types/supabase.ts"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.0",
     "@emotion/css": "^11.11.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@supabase/supabase-js": "^2.31.0",
     "@tanstack/react-query": "^4.32.0",
+    "axios": "^1.4.0",
+    "flatted": "^3.2.7",
+    "framer-motion": "^10.15.2",
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",
