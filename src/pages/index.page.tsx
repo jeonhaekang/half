@@ -59,6 +59,7 @@ export default function Home() {
             <MenuItem onClick={handleRefresh}>재고 동기화</MenuItem>
             <MenuItem onClick={() => router.push("/market")}>상가 등록</MenuItem>
             <MenuItem onClick={() => router.push("/store")}>상점 등록</MenuItem>
+            <MenuItem onClick={() => router.push("/cart")}>카트</MenuItem>
           </MenuList>
         </Menu>
       </Position>

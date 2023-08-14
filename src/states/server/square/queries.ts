@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMarkets, getStores, getVariation, getVariations } from "./api";
+import { getCarts, getMarkets, getStores, getVariation, getVariations } from "./api";
 import { SquareKey } from "./key";
 import { Variation } from "./types";
 
@@ -23,5 +23,13 @@ export const useGetVariationQuery = (id: string) => {
   return useQuery({
     queryKey: SquareKey.getVariation(id),
     queryFn: () => getVariation(id)
+  });
+};
+
+export const useGetCartsQuery = () => {
+  return useQuery({
+    queryKey: SquareKey.getCarts(),
+    queryFn: getCarts,
+    initialData: []
   });
 };

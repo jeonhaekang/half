@@ -204,30 +204,30 @@ export interface Database {
       variations: {
         Row: {
           createdAt: string
-          ichiba_price: number | null
           id: string
           itemId: string
           name: string
           price: number
           quantity: number | null
+          storePrice: number
         }
         Insert: {
           createdAt?: string
-          ichiba_price?: number | null
           id: string
           itemId: string
           name: string
           price: number
           quantity?: number | null
+          storePrice?: number
         }
         Update: {
           createdAt?: string
-          ichiba_price?: number | null
           id?: string
           itemId?: string
           name?: string
           price?: number
           quantity?: number | null
+          storePrice?: number
         }
         Relationships: [
           {
@@ -243,6 +243,17 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      carts: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          imageUrl: string
+          itemName: string
+          variationName: string
+          storePrice: number
+          quantity: number
+        }[]
+      }
       stores: {
         Args: Record<PropertyKey, never>
         Returns: {

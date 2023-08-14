@@ -69,3 +69,11 @@ export const addCart = async (item: { variationId: string; quantity: number }) =
 
   if (error) throw error;
 };
+
+export const getCarts = async () => {
+  const { data: carts, error } = await supabase.rpc("carts").select("*").order("itemName");
+
+  if (error) throw error;
+
+  return carts;
+};
