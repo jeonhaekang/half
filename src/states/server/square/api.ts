@@ -1,5 +1,5 @@
 import { supabase } from "../config";
-import type { MarketInsert, StoreInsert } from "./types";
+import type { MarketInsert, StoreInsert, Variation } from "./types";
 
 export const getMarkets = async () => {
   const { data: markets, error } = await supabase.from("markets").select("*");
@@ -9,8 +9,14 @@ export const getMarkets = async () => {
   return markets;
 };
 
-export const getVariations = async () => {
-  const { data: variations, error } = await supabase.rpc("variations").order("name");
+export const getVariations = async ({
+  column,
+  ascending
+}: {
+  column: keyof Variation;
+  ascending: boolean;
+}) => {
+  const { data: variations, error } = await supabase.rpc("variations").order(column, { ascending });
 
   if (error) throw error;
 
