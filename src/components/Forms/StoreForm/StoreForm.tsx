@@ -12,6 +12,7 @@ export interface StoreData {
     marketId: string;
     name: string;
     address: string;
+    phone: string;
   };
   isValid: boolean;
 }
@@ -27,7 +28,8 @@ export const StoreForm = ({
 
   const { data, register, isValid } = useInputForm({
     name: "",
-    address: ""
+    address: "",
+    phone: ""
   });
 
   const { data: markets } = useGetMarketsQuery();
@@ -68,6 +70,10 @@ export const StoreForm = ({
 
       <Label title="상점 위치" required>
         <Input {...register("address")} placeholder="ex) 평화시장 어딘가" required />
+      </Label>
+
+      <Label title="연락처" required>
+        <Input {...register("phone")} placeholder="전화번호나 메신저" required />
       </Label>
 
       <Button variant="secondary" onClick={onRemove}>

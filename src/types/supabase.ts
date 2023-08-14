@@ -111,6 +111,7 @@ export interface Database {
           id: string
           marketId: string
           name: string
+          phone: string
         }
         Insert: {
           address: string
@@ -118,6 +119,7 @@ export interface Database {
           id?: string
           marketId: string
           name: string
+          phone: string
         }
         Update: {
           address?: string
@@ -125,6 +127,7 @@ export interface Database {
           id?: string
           marketId?: string
           name?: string
+          phone?: string
         }
         Relationships: [
           {

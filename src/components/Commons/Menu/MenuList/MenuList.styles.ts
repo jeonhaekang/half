@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { position } from "~/styles/mixins";
+import { position, size } from "~/styles/mixins";
 import { styleHelper } from "~/styles/utils";
 import type { WithTheme } from "~/types";
 import type { MenuListStyleProps } from "./MenuList.types";
@@ -34,7 +34,9 @@ const containerStyle = ({
 }: WithTheme<MenuListStyleProps>) => {
   return css`
     z-index: ${zIndex.menu};
+    overflow-y: scroll;
 
+    ${size({ maxHeight: 200 })}
     ${full && styleHelper("width", "100%")}
 
     padding: 4px;

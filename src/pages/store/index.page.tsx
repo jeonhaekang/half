@@ -13,7 +13,8 @@ const INIT_STORES = {
   data: {
     marketId: "",
     name: "",
-    address: ""
+    address: "",
+    phone: ""
   },
   isValid: false
 };
