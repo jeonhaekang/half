@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { InventoryCount } from "square";
 import { square, supabase } from "~/states/server";
-import { getVariations } from "~/states/server/square";
 import catchErrorsFrom from "~/utils/errors";
 
 const getAllInventories = async (
@@ -22,7 +21,11 @@ const getAllInventories = async (
 
 export default catchErrorsFrom(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const variations = await getVariations();
+    // const variations = await getVariations();
+    const { data: variations, error } = await supabase.from("variations").select("*");
+
+    if (error) throw error;
+
     const variationIds = variations.map((variation) => variation.id);
 
     const inventories = await getAllInventories(variationIds);
