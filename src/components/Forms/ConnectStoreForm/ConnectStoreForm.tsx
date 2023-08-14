@@ -1,8 +1,16 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { Button, Input, Label, Menu, MenuAnchor, MenuItem, MenuList } from "~/components/Commons";
 import { useDialog } from "~/components/Dialogs";
 import { useModal } from "~/components/Modals";
-import { Store, useConnectStoreMutate, useGetStoresQuery } from "~/states/server";
+import {
+  SquareKey,
+  Store,
+  Variation,
+  useConnectStoreMutate,
+  useGetStoresQuery
+} from "~/states/server";
 import { FlexColumn } from "~/styles/mixins";
 
 interface ConnectStoreFormProps {
@@ -13,11 +21,20 @@ export const ConnectStoreForm = ({ itemId }: ConnectStoreFormProps) => {
   const { unmount } = useModal();
   const { toast } = useDialog();
   const { data: stores } = useGetStoresQuery();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
 
   const { mutate: connectStoreMutate } = useConnectStoreMutate({
-    onSuccess: () => {
+    onSuccess: async () => {
+      const { column = "name", ascending = true } = router.query as {
+        column?: keyof Variation;
+        ascending?: boolean;
+      };
+
+      await queryClient.invalidateQueries(SquareKey.getVariations({ column, ascending }));
+
       unmount("connect_store");
 
       toast({ type: "success", message: "상점 연결에 성공하였습니다." });
