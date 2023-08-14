@@ -1,12 +1,16 @@
 import Image from "next/image";
 import { MouseEvent } from "react";
 import { Row } from "~/components/Commons";
+import { AddCardForm } from "~/components/Forms";
+import { useModal } from "~/components/Modals";
 import { useBoolean } from "~/hooks";
 import type { Variation } from "~/states/server";
 import { Flex, Text } from "~/styles/mixins";
 import * as Styled from "./ItemRow.styles";
 
-export const ItemRow = ({ name, variation, price, quantity, imageUrl }: Variation) => {
+export const ItemRow = ({ id, name, variation, price, quantity, imageUrl }: Variation) => {
+  const { mount } = useModal();
+
   const [imageOpen, setImageOpen] = useBoolean(false);
 
   const handleOpenImage = (event: MouseEvent<HTMLImageElement>) => {
@@ -16,7 +20,7 @@ export const ItemRow = ({ name, variation, price, quantity, imageUrl }: Variatio
   };
 
   return (
-    <Row>
+    <Row onClick={() => mount(<AddCardForm variationId={id} />, { id: "add_card" })}>
       <Styled.ItemGrid>
         <Flex>
           {imageUrl && (

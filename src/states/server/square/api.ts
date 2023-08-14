@@ -34,6 +34,14 @@ export const getVariations = async ({
   return variations;
 };
 
+export const getVariation = async (id: string) => {
+  const { data: variation, error } = await supabase.from("variations").select("*").eq("id", id);
+
+  if (error) throw error;
+
+  return variation;
+};
+
 export const connectStore = async ({ itemId, storeId }: { itemId: string; storeId: string }) => {
   const { error } = await supabase.from("items").update({ storeId }).eq("id", itemId);
 
@@ -52,6 +60,12 @@ export const insertMarkets = async (markets: MarketInsert[]) => {
 
 export const insertStores = async (stores: StoreInsert[]) => {
   const { error } = await supabase.from("stores").insert(stores);
+
+  if (error) throw error;
+};
+
+export const addCart = async (item: { variationId: string; quantity: number }) => {
+  const { error } = await supabase.from("carts").insert(item);
 
   if (error) throw error;
 };

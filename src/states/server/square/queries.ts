@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMarkets, getStores, getVariations } from "./api";
+import { getMarkets, getStores, getVariation, getVariations } from "./api";
 import { SquareKey } from "./key";
 import { Variation } from "./types";
 
@@ -16,5 +16,12 @@ export const useGetVariationsQuery = (order: { column: keyof Variation; ascendin
     queryKey: SquareKey.getVariations(order),
     queryFn: () => getVariations(order),
     initialData: []
+  });
+};
+
+export const useGetVariationQuery = (id: string) => {
+  return useQuery({
+    queryKey: SquareKey.getVariation(id),
+    queryFn: () => getVariation(id)
   });
 };
