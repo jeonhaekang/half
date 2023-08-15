@@ -1,0 +1,12 @@
+overwrite: true
+schema:
+  - "https://connect.squareup.com/public/graphql":
+      headers:
+        Authorization: "Bearer EAAAEJ1cEAw8ze9I-XtIWW8EbNd8qSxnYBtm4KphsYenfp-5XoRtmhpOT62w6oLO"
+documents: "src/server/graphql/*.graphql"
+generates:
+  src/server/graphql/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"

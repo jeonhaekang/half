@@ -1,0 +1,20 @@
+query CatalogWithVariations($merchantId: ID!) {
+  catalog(filter: { merchantId: { equalToAnyOf: [$merchantId] }, type: { equalToAnyOf: [ITEM] } }) {
+    nodes {
+      ... on CatalogItem {
+        id
+        name
+        images {
+          url
+        }
+        variations {
+          id
+          name
+          priceMoney {
+            amount
+          }
+        }
+      }
+    }
+  }
+}

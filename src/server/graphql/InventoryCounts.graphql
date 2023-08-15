@@ -1,0 +1,10 @@
+query InventoryCounts($merchantId: ID!) {
+  inventoryCounts(filter: { merchantId: { equalToAnyOf: [$merchantId] } }) {
+    nodes {
+      quantity
+      catalog {
+        id
+      }
+    }
+  }
+}
