@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 import { Button, ItemImage, Row } from "~/components/Commons";
+import { useDialog } from "~/components/Dialogs";
 import { EDIT_QUANTITY_ORDER, EditQuantityOrderForm } from "~/components/Forms";
 import { useModal } from "~/components/Modals";
 import {
@@ -15,6 +16,7 @@ import {
 import { Flex, FlexCenter, FlexColumn, Grid, Text, flex } from "~/styles/mixins";
 
 const OrderDetail = () => {
+  const { confirm } = useDialog();
   const { mount } = useModal();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -82,7 +84,15 @@ const OrderDetail = () => {
                   {quantity.toLocaleString()}
                 </Text>
                 <Text>
-                  <Button variant="secondary" size="small" onClick={() => deleteOrderMutate(id)}>
+                  <Button
+                    variant="secondary"
+                    size="small"
+                    onClick={async () => {
+                      if (await confirm({ message: "정말로 삭제하시겠습니까?" })) {
+                        deleteOrderMutate(id);
+                      }
+                    }}
+                  >
                     삭제
                   </Button>
                 </Text>
