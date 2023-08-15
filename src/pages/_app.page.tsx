@@ -2,7 +2,6 @@ import { ThemeProvider } from "@emotion/react";
 import styled from "@emotion/styled";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import router from "next/router";
@@ -18,10 +17,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={darkTheme}>
-        <Head>
-          <link rel="icon" href="/images/favicon.png" sizes="any" />
-          <title>1/2</title>
-        </Head>
         <Container>
           <GlobalStyle />
           <FlexCenter style={{ padding: "12px 16px" }}>
