@@ -8,5 +8,5 @@ export const ItemModal = ({ item }: { item: Item }) => {
 
   if (isLoading) return;
 
-  return selectedItem ? <AddCardForm item={item} /> : <ConnectItemForm itemId={item.id} />;
+  return selectedItem ? <AddCardForm item={item} /> : <ConnectItemForm itemId={item.itemId} />;
 };
