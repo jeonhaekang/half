@@ -19,7 +19,8 @@ const App = ({ Component, pageProps }: AppProps) => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={darkTheme}>
         <Head>
-          <title>이분의일</title>
+          <link rel="icon" href="/images/favicon.png" sizes="any" />
+          <title>1/2</title>
         </Head>
         <Container>
           <GlobalStyle />
