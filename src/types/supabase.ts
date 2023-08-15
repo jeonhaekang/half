@@ -34,79 +34,23 @@ export interface Database {
   }
   public: {
     Tables: {
-      carts: {
-        Row: {
-          createdAt: string
-          id: string
-          quantity: number
-          variationId: string
-        }
-        Insert: {
-          createdAt?: string
-          id?: string
-          quantity: number
-          variationId: string
-        }
-        Update: {
-          createdAt?: string
-          id?: string
-          quantity?: number
-          variationId?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "carts_variationId_fkey"
-            columns: ["variationId"]
-            referencedRelation: "variations"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      images: {
-        Row: {
-          createdAt: string
-          id: string
-          imageUrl: string
-          itemId: string
-        }
-        Insert: {
-          createdAt?: string
-          id: string
-          imageUrl: string
-          itemId: string
-        }
-        Update: {
-          createdAt?: string
-          id?: string
-          imageUrl?: string
-          itemId?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "images_itemId_fkey"
-            columns: ["itemId"]
-            referencedRelation: "items"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       items: {
         Row: {
           createdAt: string
           id: string
-          name: string
+          price: number | null
           storeId: string
         }
         Insert: {
           createdAt?: string
           id: string
-          name: string
+          price?: number | null
           storeId: string
         }
         Update: {
           createdAt?: string
           id?: string
-          name?: string
+          price?: number | null
           storeId?: string
         }
         Relationships: [
@@ -139,34 +83,6 @@ export interface Database {
         }
         Relationships: []
       }
-      orders: {
-        Row: {
-          createdAt: string
-          id: number
-          quantity: number
-          variationId: string
-        }
-        Insert: {
-          createdAt?: string
-          id?: number
-          quantity: number
-          variationId: string
-        }
-        Update: {
-          createdAt?: string
-          id?: number
-          quantity?: number
-          variationId?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "orders_variationId_fkey"
-            columns: ["variationId"]
-            referencedRelation: "variations"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       stores: {
         Row: {
           address: string
@@ -197,43 +113,6 @@ export interface Database {
             foreignKeyName: "stores_marketId_fkey"
             columns: ["marketId"]
             referencedRelation: "markets"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      variations: {
-        Row: {
-          createdAt: string
-          id: string
-          itemId: string
-          name: string
-          price: number
-          quantity: number | null
-          storePrice: number
-        }
-        Insert: {
-          createdAt?: string
-          id: string
-          itemId: string
-          name: string
-          price: number
-          quantity?: number | null
-          storePrice?: number
-        }
-        Update: {
-          createdAt?: string
-          id?: string
-          itemId?: string
-          name?: string
-          price?: number
-          quantity?: number | null
-          storePrice?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "variations_itemId_fkey"
-            columns: ["itemId"]
-            referencedRelation: "items"
             referencedColumns: ["id"]
           }
         ]

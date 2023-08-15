@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { Row } from "~/components/Commons";
+import { ITEM_MODAL, ItemModal, useModal } from "~/components/Modals";
 import { getCatalogWithVariationsQuery } from "~/states/server";
 import { Flex, FlexColumn, Grid, Text } from "~/styles/mixins";
 
 export default function Home() {
+  const { mount } = useModal();
   const { data: items } = getCatalogWithVariationsQuery();
 
   return (
@@ -21,7 +23,10 @@ export default function Home() {
       {items
         .sort((a, b) => a.itemName.localeCompare(b.itemName))
         .map((item) => (
-          <Row key={item.id}>
+          <Row
+            key={item.id}
+            onClick={() => mount(<ItemModal itemId={item.itemId} />, { id: ITEM_MODAL })}
+          >
             <Grid column={5} align="center" justify="center" style={{ minHeight: "40px" }}>
               <Flex>
                 {item.imageUrl && <Image src={item.imageUrl} alt="이미지" width={60} height={60} />}

@@ -3,10 +3,10 @@ import { Button, Input } from "~/components/Commons";
 import { useDialog } from "~/components/Dialogs";
 import { useModal } from "~/components/Modals";
 import { useInputForm } from "~/hooks";
-import { useAddCardMutate } from "~/states/server";
+// import { useAddCardMutate } from "~/states/server";
 import { FlexColumn, Text } from "~/styles/mixins";
 
-export const AddCardForm = ({ variationId }: { variationId: string }) => {
+export const AddCardForm = () => {
   const { toast } = useDialog();
   const { unmount } = useModal();
 
@@ -14,19 +14,19 @@ export const AddCardForm = ({ variationId }: { variationId: string }) => {
 
   console.log(data);
 
-  const { mutate: addCardMutate } = useAddCardMutate({
-    onSuccess: () => {
-      toast({ type: "success", message: "카트에 담았습니다." });
+  // const { mutate: addCardMutate } = useAddCardMutate({
+  //   onSuccess: () => {
+  //     toast({ type: "success", message: "카트에 담았습니다." });
 
-      unmount("add_card");
-    },
-    onError: () => toast({ type: "error", message: "담기에 실패했습니다." })
-  });
+  //     unmount("add_card");
+  //   },
+  //   onError: () => toast({ type: "error", message: "담기에 실패했습니다." })
+  // });
 
   const handleAddCard = (event: FormEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    addCardMutate({ variationId, quantity: Number(data.quantity) });
+    // addCardMutate({ variationId, quantity: Number(data.quantity) });
   };
 
   return (

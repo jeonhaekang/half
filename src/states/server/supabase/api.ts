@@ -28,3 +28,11 @@ export const insertMarkets = async (markets: MarketInsert[]) => {
 
   if (error) throw error;
 };
+
+export const getItem = async (itemId: string) => {
+  const { data, error } = await supabase.from("items").select("*").eq("id", itemId).maybeSingle();
+
+  if (error) throw error;
+
+  return data;
+};

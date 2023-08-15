@@ -5,6 +5,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import router from "next/router";
 import { Button, Icon, Menu, MenuAnchor, MenuItem, MenuList } from "~/components/Commons";
+import { Overlay } from "~/components/Utils";
 import { GlobalStyle } from "~/styles/GlobalStyle";
 import { Position, size } from "~/styles/mixins";
 import { darkTheme } from "~/styles/theme";
@@ -21,7 +22,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Container>
           <GlobalStyle />
           <Component {...pageProps} />
-
           <Position position="fixed" bottom={12} right={12}>
             <Menu>
               <MenuAnchor>
@@ -38,6 +38,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             </Menu>
           </Position>
         </Container>
+        <Overlay />
       </ThemeProvider>
     </QueryClientProvider>
   );

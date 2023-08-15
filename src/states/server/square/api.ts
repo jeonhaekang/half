@@ -37,6 +37,7 @@ export const getCatalogWithVariations = async () => {
       item.variations?.forEach((variation) => {
         acc.push({
           id: variation.id,
+          itemId: item.id,
           itemName: item.name,
           variationName: variation.name,
           price: variation.priceMoney?.amount ?? 0,
@@ -49,6 +50,7 @@ export const getCatalogWithVariations = async () => {
     },
     [] as {
       id: string;
+      itemId: string;
       itemName: string;
       variationName: string;
       price: number;
