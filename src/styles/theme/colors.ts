@@ -25,12 +25,12 @@ export const lightColors = {
 
 export const darkColors = {
   ...constantColors,
-  content1: "#E5E7E7",
-  content2: "#B3B7BB",
-  content3: "#666F77",
-  border: "#192734",
-  backgroundSecondary: "#0D1C28",
-  backgroundPrimary: "#000F1D",
+  content1: "#E8E8E8",
+  content2: "#BABABA",
+  content3: "#767676",
+  border: "#313131",
+  backgroundSecondary: "#272727",
+  backgroundPrimary: "#1A1A1A",
   info: "#168FFF",
   success: "#18CB49",
   error: "#F74141",
