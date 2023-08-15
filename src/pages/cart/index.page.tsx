@@ -1,8 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { FormEvent } from "react";
-import { Button, Row } from "~/components/Commons";
+import { Button, ItemImage, Row } from "~/components/Commons";
 import { useDialog } from "~/components/Dialogs";
 import {
   SupabaseKey,
@@ -72,7 +71,7 @@ const Cart = () => {
           <Row key={item.id}>
             <Grid column={6} align="center" justify="center">
               <Flex>
-                {item.imageUrl && <Image src={item.imageUrl} alt="이미지" width={40} height={40} />}
+                <ItemImage imageUrl={item.imageUrl} />
               </Flex>
               <Text>{item.itemName}</Text>
               <Text>{item.variationName}</Text>

@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { Row } from "~/components/Commons";
+import { ItemImage, Row } from "~/components/Commons";
 import { ITEM_MODAL, ItemModal, useModal } from "~/components/Modals";
 import { useBoolean } from "~/hooks";
 import { getCatalogWithVariationsQuery } from "~/states/server";
@@ -35,7 +34,7 @@ export default function Home() {
           <Row key={item.id} onClick={() => mount(<ItemModal item={item} />, { id: ITEM_MODAL })}>
             <Grid column={5} align="center" justify="center" style={{ minHeight: "40px" }}>
               <Flex>
-                {item.imageUrl && <Image src={item.imageUrl} alt="이미지" width={40} height={40} />}
+                <ItemImage imageUrl={item.imageUrl} />
               </Flex>
               <Text>{item.itemName}</Text>
               <Text>{item.variationName}</Text>

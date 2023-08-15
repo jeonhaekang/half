@@ -3,11 +3,12 @@ import styled from "@emotion/styled";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import Link from "next/link";
 import router from "next/router";
 import { Button, Icon, Menu, MenuAnchor, MenuItem, MenuList } from "~/components/Commons";
 import { Overlay } from "~/components/Utils";
 import { GlobalStyle } from "~/styles/GlobalStyle";
-import { Position, size } from "~/styles/mixins";
+import { Flex, Position, Text, size } from "~/styles/mixins";
 import { darkTheme } from "~/styles/theme";
 
 export const queryClient = new QueryClient();
@@ -21,6 +22,11 @@ const App = ({ Component, pageProps }: AppProps) => {
         </Head>
         <Container>
           <GlobalStyle />
+          <Flex style={{ padding: "12px 16px" }}>
+            <Link href="/">
+              <Text>이분의일</Text>
+            </Link>
+          </Flex>
           <Component {...pageProps} />
           <Position position="fixed" bottom={12} right={12}>
             <Menu>
