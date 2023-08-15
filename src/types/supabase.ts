@@ -65,7 +65,14 @@ export interface Database {
           quantity?: number
           variationName?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "carts_itemId_fkey"
+            columns: ["itemId"]
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       items: {
         Row: {
@@ -113,6 +120,70 @@ export interface Database {
           createdAt?: string
           id?: string
           name?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          createdAt: string
+          id: string
+          imageUrl: string | null
+          itemId: string
+          itemName: string
+          price: number
+          quantity: number
+          sheetId: string
+          variationName: string
+        }
+        Insert: {
+          createdAt?: string
+          id?: string
+          imageUrl?: string | null
+          itemId: string
+          itemName: string
+          price: number
+          quantity: number
+          sheetId: string
+          variationName: string
+        }
+        Update: {
+          createdAt?: string
+          id?: string
+          imageUrl?: string | null
+          itemId?: string
+          itemName?: string
+          price?: number
+          quantity?: number
+          sheetId?: string
+          variationName?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_itemId_fkey"
+            columns: ["itemId"]
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_sheetId_fkey"
+            columns: ["sheetId"]
+            referencedRelation: "orderSheets"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      orderSheets: {
+        Row: {
+          createdAt: string
+          id: string
+        }
+        Insert: {
+          createdAt?: string
+          id?: string
+        }
+        Update: {
+          createdAt?: string
+          id?: string
         }
         Relationships: []
       }

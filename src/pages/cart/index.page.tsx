@@ -1,15 +1,39 @@
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { FormEvent } from "react";
 import { Button, Row } from "~/components/Commons";
 import { useDialog } from "~/components/Dialogs";
-import { SupabaseKey, useDeleteCartMutate, useGetCartQuery } from "~/states/server";
+import {
+  SupabaseKey,
+  useClearCartMutate,
+  useDeleteCartMutate,
+  useGetCartQuery,
+  useInsertOrderMutate
+} from "~/states/server";
 import { Flex, FlexColumn, Grid, Text } from "~/styles/mixins";
 
 const Cart = () => {
-  const { toast } = useDialog();
+  const { toast, confirm } = useDialog();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { data: carts } = useGetCartQuery();
+
+  const { mutate: clearCartMutate } = useClearCartMutate();
+
+  const { mutateAsync: insertOrderMutateAsync } = useInsertOrderMutate({
+    onSuccess: () => {
+      clearCartMutate();
+
+      router.replace("/");
+
+      toast({ type: "success", message: "주문에 성공하였습니다." });
+    },
+    onError: () => {
+      toast({ type: "error", message: "주문에 실패하였습니다." });
+    }
+  });
 
   const { mutate: deleteCartMutate } = useDeleteCartMutate({
     onSuccess: () => {
@@ -19,10 +43,18 @@ const Cart = () => {
     }
   });
 
+  const handleOrder = async (event: FormEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    if (carts.length > 0) {
+      if (await confirm({ message: "주문하시겠습니까?" })) insertOrderMutateAsync(carts);
+    }
+  };
+
   const totalPrice = carts.reduce((tp, item) => (tp += item.quantity * item.price), 0);
 
   return (
-    <FlexColumn>
+    <FlexColumn as="form" onSubmit={handleOrder}>
       <Row isTitle>
         <Grid column={6} align="center" justify="center" style={{ height: "40px" }}>
           <Text>이미지</Text>

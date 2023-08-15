@@ -14,7 +14,7 @@ export const AddCardForm = ({ item }: { item: Item }) => {
 
   const { data, register } = useInputForm({ quantity: "" });
 
-  const { mutate: insertCartMutate } = useInsertCartMutate({
+  const { mutateAsync: insertCartMutateAsync } = useInsertCartMutate({
     onSuccess: () => {
       unmount(ITEM_MODAL);
 
@@ -30,8 +30,8 @@ export const AddCardForm = ({ item }: { item: Item }) => {
 
     if (!itemData) return;
 
-    insertCartMutate({
-      itemId: item.id,
+    insertCartMutateAsync({
+      itemId: item.itemId,
       itemName: item.itemName,
       variationName: item.variationName,
       imageUrl: item.imageUrl,
