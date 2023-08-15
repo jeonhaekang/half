@@ -2,12 +2,15 @@ import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useRef } from "react";
 import { Row } from "~/components/Commons";
 import { useGetOrderItemsQuery, useGetOrderSheetQuery } from "~/states/server";
 import { Flex, FlexCenter, FlexColumn, Grid, Text, flex } from "~/styles/mixins";
 
 const OrderDetail = () => {
   const router = useRouter();
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const sheetId = router.query.sheetId as string;
 
@@ -32,39 +35,41 @@ const OrderDetail = () => {
         <Text size="heading3">{dayjs(sheet.createdAt).format("YYYY년 MM년 DD일 hh시 mm분")}</Text>
       </FlexCenter>
 
-      <Row isTitle>
-        <Grid column={5} align="center" justify="center" style={{ height: "40px" }}>
-          <Text>이미지</Text>
-          <Text>품번</Text>
-          <Text>분류</Text>
-          <Text>가격</Text>
-          <Text>수량</Text>
-        </Grid>
-      </Row>
+      <FlexColumn ref={ref}>
+        <Row isTitle>
+          <Grid column={5} align="center" justify="center" style={{ height: "40px" }}>
+            <Text>이미지</Text>
+            <Text>품번</Text>
+            <Text>분류</Text>
+            <Text>가격</Text>
+            <Text>수량</Text>
+          </Grid>
+        </Row>
 
-      {sheetItems.map(({ id, imageUrl, itemName, variationName, price, quantity, items }) => {
-        return (
-          <Row key={id}>
-            <Grid column={5} align="center" justify="center">
-              <Flex>
-                {imageUrl && <Image src={imageUrl} width={40} height={40} alt="이미지" />}
-              </Flex>
-              <Text>{itemName}</Text>
-              <Text>{variationName}</Text>
-              <Text>{price}</Text>
-              <Text>{quantity}</Text>
-            </Grid>
+        {sheetItems.map(({ id, imageUrl, itemName, variationName, price, quantity, items }) => {
+          return (
+            <Row key={id}>
+              <Grid column={5} align="center" justify="center">
+                <Flex>
+                  {imageUrl && <Image src={imageUrl} width={40} height={40} alt="이미지" />}
+                </Flex>
+                <Text>{itemName}</Text>
+                <Text>{variationName}</Text>
+                <Text>{price.toLocaleString()}</Text>
+                <Text>{quantity.toLocaleString()}</Text>
+              </Grid>
 
-            {items?.stores && items.stores.markets && (
-              <Flex style={{ padding: "8px 16px" }} gap={12}>
-                <Text>{items.stores.markets.name}</Text>
-                <Text>{items.stores.name}</Text>
-                <Text>{items.stores.address}</Text>
-              </Flex>
-            )}
-          </Row>
-        );
-      })}
+              {items?.stores && items.stores.markets && (
+                <Flex style={{ padding: "8px 16px" }} gap={12}>
+                  <Text>{items.stores.markets.name}</Text>
+                  <Text>{items.stores.name}</Text>
+                  <Text>{items.stores.address}</Text>
+                </Flex>
+              )}
+            </Row>
+          );
+        })}
+      </FlexColumn>
 
       <Container>
         <Text>총액 : {totalPrice.toLocaleString()}</Text>
