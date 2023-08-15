@@ -4,8 +4,6 @@ import { InventoryCount } from "square";
 export const getBatchInventories = async (variationIds: string[]) => {
   const { data } = await axios.post<InventoryCount[]>("api/inventory/batch", { variationIds });
 
-  console.log(variationIds, data);
-
   return data;
 };
 

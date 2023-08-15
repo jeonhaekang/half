@@ -1,7 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import styled from "@emotion/styled";
-import type { DehydratedState } from "@tanstack/react-query";
-import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { GlobalStyle } from "~/styles/GlobalStyle";
@@ -10,20 +9,18 @@ import { darkTheme } from "~/styles/theme";
 
 export const queryClient = new QueryClient();
 
-const App = ({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>) => {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <ThemeProvider theme={darkTheme}>
-          <Head>
-            <title>이분의일</title>
-          </Head>
-          <Container>
-            <GlobalStyle />
-            <Component {...pageProps} />
-          </Container>
-        </ThemeProvider>
-      </Hydrate>
+      <ThemeProvider theme={darkTheme}>
+        <Head>
+          <title>이분의일</title>
+        </Head>
+        <Container>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </Container>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };
