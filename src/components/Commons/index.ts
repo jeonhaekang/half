@@ -5,6 +5,7 @@ export * from "./Inputs";
 export * from "./ItemImage";
 export { Label } from "./Label";
 export * from "./Menu";
+export * from "./RatioBox";
 export { Select } from "./Select";
 export * from "./Table";
 export { Toggle } from "./Toggle";
