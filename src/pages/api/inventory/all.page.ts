@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { InventoryCount } from "square";
-import { square } from "~/server";
+import { square } from "~/states/server";
 import { bigIntToNumber } from "~/utils";
 
 const getAllInventories = async (

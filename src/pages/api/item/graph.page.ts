@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { apollo } from "~/server";
-import { CatalogWithVariations } from "~/server/graphql";
+import { apollo } from "~/states/server";
+import { CatalogWithVariations } from "~/states/server/graphql";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {

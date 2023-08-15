@@ -3,8 +3,10 @@ import styled from "@emotion/styled";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import router from "next/router";
+import { Button, Icon, Menu, MenuAnchor, MenuItem, MenuList } from "~/components/Commons";
 import { GlobalStyle } from "~/styles/GlobalStyle";
-import { size } from "~/styles/mixins";
+import { Position, size } from "~/styles/mixins";
 import { darkTheme } from "~/styles/theme";
 
 export const queryClient = new QueryClient();
@@ -19,6 +21,22 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Container>
           <GlobalStyle />
           <Component {...pageProps} />
+
+          <Position position="fixed" bottom={12} right={12}>
+            <Menu>
+              <MenuAnchor>
+                <Button size="large" shape="circle">
+                  <Icon name="add" width={32} height={32} />
+                </Button>
+              </MenuAnchor>
+
+              <MenuList vertical="top">
+                <MenuItem onClick={() => router.push("/market")}>상가 등록</MenuItem>
+                <MenuItem onClick={() => router.push("/store")}>상점 등록</MenuItem>
+                <MenuItem onClick={() => router.push("/cart")}>카트</MenuItem>
+              </MenuList>
+            </Menu>
+          </Position>
         </Container>
       </ThemeProvider>
     </QueryClientProvider>

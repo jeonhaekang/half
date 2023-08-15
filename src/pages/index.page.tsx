@@ -1,9 +1,7 @@
 import Image from "next/image";
 import { Row } from "~/components/Commons";
-import { getCatalogWithVariationsQuery } from "~/server";
+import { getCatalogWithVariationsQuery } from "~/states/server";
 import { Flex, FlexColumn, Grid, Text } from "~/styles/mixins";
-
-export const HEADERS = ["이미지", "품번", "구분", "가격", "재고"] as const;
 
 export default function Home() {
   const { data: items } = getCatalogWithVariationsQuery();
