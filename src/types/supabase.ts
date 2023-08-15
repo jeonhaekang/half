@@ -34,23 +34,56 @@ export interface Database {
   }
   public: {
     Tables: {
+      carts: {
+        Row: {
+          createdAt: string
+          id: string
+          imageUrl: string | null
+          itemId: string
+          itemName: string
+          price: number
+          quantity: number
+          variationName: string
+        }
+        Insert: {
+          createdAt?: string
+          id?: string
+          imageUrl?: string | null
+          itemId: string
+          itemName: string
+          price: number
+          quantity: number
+          variationName: string
+        }
+        Update: {
+          createdAt?: string
+          id?: string
+          imageUrl?: string | null
+          itemId?: string
+          itemName?: string
+          price?: number
+          quantity?: number
+          variationName?: string
+        }
+        Relationships: []
+      }
       items: {
         Row: {
           createdAt: string
           id: string
-          price: number | null
+          price: number
           storeId: string
         }
         Insert: {
           createdAt?: string
           id: string
-          price?: number | null
+          price?: number
           storeId: string
         }
         Update: {
           createdAt?: string
           id?: string
-          price?: number | null
+          price?: number
           storeId?: string
         }
         Relationships: [

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { PickMutationOptions } from "../server.types";
-import { insertItem, insertMarkets, insertStores } from "./api";
+import { insertCart, insertItem, insertMarkets, insertStores } from "./api";
 
 export const useInsertStoresMutate = (
   options?: PickMutationOptions<typeof insertStores, "onSuccess" | "onError">
@@ -25,6 +25,15 @@ export const useInsertItemMutate = (
 ) => {
   return useMutation({
     mutationFn: insertItem,
+    ...options
+  });
+};
+
+export const useInsertCartMutate = (
+  options?: PickMutationOptions<typeof insertCart, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: insertCart,
     ...options
   });
 };

@@ -1,12 +1,12 @@
 import { AddCardForm, ConnectItemForm } from "~/components/Forms";
-import { useGetItemQuery } from "~/states/server";
+import { Item, useGetItemQuery } from "~/states/server";
 
 export const ITEM_MODAL = "ITEM_MODAL";
 
-export const ItemModal = ({ itemId }: { itemId: string }) => {
-  const { data: item, isLoading } = useGetItemQuery(itemId);
+export const ItemModal = ({ item }: { item: Item }) => {
+  const { data: selectedItem, isLoading } = useGetItemQuery(item.itemId);
 
   if (isLoading) return;
 
-  return item ? <AddCardForm /> : <ConnectItemForm itemId={itemId} />;
+  return selectedItem ? <AddCardForm item={item} /> : <ConnectItemForm itemId={item.id} />;
 };

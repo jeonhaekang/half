@@ -1,32 +1,43 @@
 import { FormEvent } from "react";
 import { Button, Input } from "~/components/Commons";
 import { useDialog } from "~/components/Dialogs";
-import { useModal } from "~/components/Modals";
+import { ITEM_MODAL, useModal } from "~/components/Modals";
 import { useInputForm } from "~/hooks";
-// import { useAddCardMutate } from "~/states/server";
+import { Item, useGetItemQuery, useInsertCartMutate } from "~/states/server";
 import { FlexColumn, Text } from "~/styles/mixins";
 
-export const AddCardForm = () => {
+export const AddCardForm = ({ item }: { item: Item }) => {
   const { toast } = useDialog();
   const { unmount } = useModal();
 
+  const { data: itemData } = useGetItemQuery(item.itemId);
+
   const { data, register } = useInputForm({ quantity: "" });
 
-  console.log(data);
+  const { mutate: insertCartMutate } = useInsertCartMutate({
+    onSuccess: () => {
+      unmount(ITEM_MODAL);
 
-  // const { mutate: addCardMutate } = useAddCardMutate({
-  //   onSuccess: () => {
-  //     toast({ type: "success", message: "카트에 담았습니다." });
-
-  //     unmount("add_card");
-  //   },
-  //   onError: () => toast({ type: "error", message: "담기에 실패했습니다." })
-  // });
+      toast({ type: "success", message: "카트에 담았습니다." });
+    },
+    onError: () => {
+      toast({ type: "error", message: "담기에 실패했습니다." });
+    }
+  });
 
   const handleAddCard = (event: FormEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    // addCardMutate({ variationId, quantity: Number(data.quantity) });
+    if (!itemData) return;
+
+    insertCartMutate({
+      itemId: item.id,
+      itemName: item.itemName,
+      variationName: item.variationName,
+      imageUrl: item.imageUrl,
+      price: itemData.price,
+      quantity: Number(data.quantity)
+    });
   };
 
   return (

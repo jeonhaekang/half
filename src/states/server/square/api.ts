@@ -1,5 +1,6 @@
 import axios from "axios";
 import { InventoryCount } from "square";
+import { Item } from "./types";
 
 export const getBatchInventories = async (variationIds: string[]) => {
   const { data } = await axios.post<InventoryCount[]>("api/inventory/batch", { variationIds });
@@ -32,32 +33,21 @@ export const getCatalogWithVariations = async () => {
     inventoryMap.set(inventory.catalogObjectId, Number(inventory.quantity))
   );
 
-  const variations = items.reduce(
-    (acc, item) => {
-      item.variations?.forEach((variation) => {
-        acc.push({
-          id: variation.id,
-          itemId: item.id,
-          itemName: item.name,
-          variationName: variation.name,
-          price: variation.priceMoney?.amount ?? 0,
-          imageUrl: item.images?.[0].url ?? null,
-          quantity: inventoryMap.get(variation.id) ?? 0
-        });
+  const variations = items.reduce((acc, item) => {
+    item.variations?.forEach((variation) => {
+      acc.push({
+        id: variation.id,
+        itemId: item.id,
+        itemName: item.name,
+        variationName: variation.name,
+        price: variation.priceMoney?.amount ?? 0,
+        imageUrl: item.images?.[0].url ?? null,
+        quantity: inventoryMap.get(variation.id) ?? 0
       });
+    });
 
-      return acc;
-    },
-    [] as {
-      id: string;
-      itemId: string;
-      itemName: string;
-      variationName: string;
-      price: number;
-      imageUrl: string | null;
-      quantity: number;
-    }[]
-  );
+    return acc;
+  }, [] as Item[]);
 
   return variations;
 };

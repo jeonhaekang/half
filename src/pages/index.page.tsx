@@ -23,10 +23,7 @@ export default function Home() {
       {items
         .sort((a, b) => a.itemName.localeCompare(b.itemName))
         .map((item) => (
-          <Row
-            key={item.id}
-            onClick={() => mount(<ItemModal itemId={item.itemId} />, { id: ITEM_MODAL })}
-          >
+          <Row key={item.id} onClick={() => mount(<ItemModal item={item} />, { id: ITEM_MODAL })}>
             <Grid column={5} align="center" justify="center" style={{ minHeight: "40px" }}>
               <Flex>
                 {item.imageUrl && <Image src={item.imageUrl} alt="이미지" width={60} height={60} />}

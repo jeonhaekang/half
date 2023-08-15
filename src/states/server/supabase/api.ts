@@ -1,5 +1,5 @@
 import { supabase } from "../config";
-import { ItemInsert, MarketInsert, StoreInsert } from "./types";
+import { CartInsert, ItemInsert, MarketInsert, StoreInsert } from "./types";
 
 export const getMarkets = async () => {
   const { data: markets, error } = await supabase.from("markets").select("*");
@@ -39,6 +39,12 @@ export const getItem = async (itemId: string) => {
 
 export const insertItem = async (item: ItemInsert) => {
   const { error } = await supabase.from("items").insert(item);
+
+  if (error) throw error;
+};
+
+export const insertCart = async (item: CartInsert) => {
+  const { error } = await supabase.from("carts").insert(item);
 
   if (error) throw error;
 };
