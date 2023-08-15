@@ -84,3 +84,25 @@ export const insertOrder = async (orders: CartRow[]) => {
 
   if (insertError) throw insertError;
 };
+
+export const getOrderSheets = async () => {
+  const { data, error } = await supabase
+    .from("orderSheets")
+    .select("*")
+    .order("createdAt", { ascending: false });
+
+  if (error) throw error;
+
+  return data;
+};
+
+export const getOrderItems = async (sheetId: string) => {
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*, items(*, stores(*, markets(*)))")
+    .eq("sheetId", sheetId);
+
+  if (error) throw error;
+
+  return data;
+};
