@@ -26,7 +26,7 @@ export default function Home() {
           <Row key={item.id} onClick={() => mount(<ItemModal item={item} />, { id: ITEM_MODAL })}>
             <Grid column={5} align="center" justify="center" style={{ minHeight: "40px" }}>
               <Flex>
-                {item.imageUrl && <Image src={item.imageUrl} alt="이미지" width={60} height={60} />}
+                {item.imageUrl && <Image src={item.imageUrl} alt="이미지" width={40} height={40} />}
               </Flex>
               <Text>{item.itemName}</Text>
               <Text>{item.variationName}</Text>
