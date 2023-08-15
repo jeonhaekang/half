@@ -1,10 +1,12 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { useBoolean } from "~/hooks";
+import { useBoolean, useLockBodyScroll } from "~/hooks";
 import { flex, position, size } from "~/styles/mixins";
 
 export const ItemImage = ({ imageUrl }: { imageUrl?: string | null }) => {
   const [isOpen, setIsOpen] = useBoolean(false);
+
+  useLockBodyScroll(isOpen);
 
   if (!imageUrl) return;
 
