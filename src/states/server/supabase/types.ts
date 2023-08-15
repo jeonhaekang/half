@@ -21,6 +21,7 @@ export type CartInsert = CartTable["Insert"];
 export type OrderTable = Table["orders"];
 export type OrderRow = OrderTable["Row"];
 export type OrderInsert = OrderTable["Insert"];
+export type OrderUpdate = OrderTable["Update"];
 
 export type Stores = Database["public"]["Functions"]["stores"]["Returns"];
 export type Store = Stores[0];

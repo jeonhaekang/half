@@ -3,11 +3,13 @@ import { PickMutationOptions } from "../server.types";
 import {
   clearCart,
   deleteCart,
+  deleteOrderItem,
   insertCart,
   insertItem,
   insertMarkets,
   insertOrder,
-  insertStores
+  insertStores,
+  updateOrderItem
 } from "./api";
 
 export const useInsertStoresMutate = (
@@ -69,6 +71,24 @@ export const useInsertOrderMutate = (
 ) => {
   return useMutation({
     mutationFn: insertOrder,
+    ...options
+  });
+};
+
+export const useDeleteOrderMutate = (
+  options?: PickMutationOptions<typeof deleteOrderItem, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: deleteOrderItem,
+    ...options
+  });
+};
+
+export const useUpdateOrderItemMutate = (
+  options?: PickMutationOptions<typeof updateOrderItem, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: updateOrderItem,
     ...options
   });
 };

@@ -1,13 +1,23 @@
 import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useRef } from "react";
-import { ItemImage, Row } from "~/components/Commons";
-import { useGetOrderItemsQuery, useGetOrderSheetQuery } from "~/states/server";
+import { Button, ItemImage, Row } from "~/components/Commons";
+import { EDIT_QUANTITY_ORDER, EditQuantityOrderForm } from "~/components/Forms";
+import { useModal } from "~/components/Modals";
+import {
+  SupabaseKey,
+  useDeleteOrderMutate,
+  useGetOrderItemsQuery,
+  useGetOrderSheetQuery
+} from "~/states/server";
 import { Flex, FlexCenter, FlexColumn, Grid, Text, flex } from "~/styles/mixins";
 
 const OrderDetail = () => {
+  const { mount } = useModal();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -15,6 +25,12 @@ const OrderDetail = () => {
 
   const { data: sheet } = useGetOrderSheetQuery(sheetId);
   const { data: sheetItems } = useGetOrderItemsQuery(sheetId);
+
+  const { mutate: deleteOrderMutate } = useDeleteOrderMutate({
+    onSuccess: () => {
+      queryClient.invalidateQueries(SupabaseKey.getOrderItems(sheetId));
+    }
+  });
 
   sheetItems.sort((a, b) => {
     const nameA = a.items?.stores?.markets?.name || "";
@@ -36,26 +52,40 @@ const OrderDetail = () => {
 
       <FlexColumn ref={ref}>
         <Row isTitle>
-          <Grid column={5} align="center" justify="center" style={{ height: "40px" }}>
+          <Grid column={6} align="center" justify="center" style={{ height: "40px" }}>
             <Text>이미지</Text>
             <Text>품번</Text>
             <Text>분류</Text>
             <Text>가격</Text>
             <Text>수량</Text>
+            <Text>삭제</Text>
           </Grid>
         </Row>
 
         {sheetItems.map(({ id, imageUrl, itemName, variationName, price, quantity, items }) => {
           return (
             <Row key={id}>
-              <Grid column={5} align="center" justify="center">
+              <Grid column={6} align="center" justify="center">
                 <Flex>
                   <ItemImage imageUrl={imageUrl} />
                 </Flex>
                 <Text>{itemName}</Text>
                 <Text>{variationName}</Text>
                 <Text>{price.toLocaleString()}</Text>
-                <Text>{quantity.toLocaleString()}</Text>
+                <Text
+                  onClick={() =>
+                    mount(<EditQuantityOrderForm sheetId={sheet.id} orderItemId={id} />, {
+                      id: EDIT_QUANTITY_ORDER
+                    })
+                  }
+                >
+                  {quantity.toLocaleString()}
+                </Text>
+                <Text>
+                  <Button variant="secondary" size="small" onClick={() => deleteOrderMutate(id)}>
+                    삭제
+                  </Button>
+                </Text>
               </Grid>
 
               {items?.stores && items.stores.markets && (

@@ -1,5 +1,5 @@
 import { supabase } from "../config";
-import { CartInsert, CartRow, ItemInsert, MarketInsert, StoreInsert } from "./types";
+import { CartInsert, CartRow, ItemInsert, MarketInsert, OrderUpdate, StoreInsert } from "./types";
 
 export const getMarkets = async () => {
   const { data: markets, error } = await supabase.from("markets").select("*");
@@ -113,4 +113,16 @@ export const getOrderItems = async (sheetId: string) => {
   if (error) throw error;
 
   return data;
+};
+
+export const deleteOrderItem = async (orderItemId: string) => {
+  const { error } = await supabase.from("orders").delete().eq("id", orderItemId);
+
+  if (error) throw error;
+};
+
+export const updateOrderItem = async ({ id, item }: { id: string; item: OrderUpdate }) => {
+  const { error } = await supabase.from("orders").update(item).eq("id", id);
+
+  if (error) throw error;
 };
