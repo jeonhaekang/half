@@ -10,5 +10,9 @@ export type StoreTable = Table["stores"];
 export type StoreRow = StoreTable["Row"];
 export type StoreInsert = StoreTable["Insert"];
 
+export type ItemTable = Table["items"];
+export type ItemRow = ItemTable["Row"];
+export type ItemInsert = ItemTable["Insert"];
+
 export type Stores = Database["public"]["Functions"]["stores"]["Returns"];
 export type Store = Stores[0];
