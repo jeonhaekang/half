@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef } from "react";
-import { Row } from "~/components/Commons";
+import { ItemImage, Row } from "~/components/Commons";
 import { useGetOrderItemsQuery, useGetOrderSheetQuery } from "~/states/server";
 import { Flex, FlexCenter, FlexColumn, Grid, Text, flex } from "~/styles/mixins";
 
@@ -51,7 +50,7 @@ const OrderDetail = () => {
             <Row key={id}>
               <Grid column={5} align="center" justify="center">
                 <Flex>
-                  {imageUrl && <Image src={imageUrl} width={40} height={40} alt="이미지" />}
+                  <ItemImage imageUrl={imageUrl} />
                 </Flex>
                 <Text>{itemName}</Text>
                 <Text>{variationName}</Text>
