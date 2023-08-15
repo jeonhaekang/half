@@ -31,7 +31,7 @@ const OrderDetail = () => {
 
   return (
     <FlexColumn>
-      <FlexCenter>
+      <FlexCenter style={{ padding: "12px" }}>
         <Text size="heading3">{dayjs(sheet.createdAt).format("YYYY년 MM년 DD일 hh시 mm분")}</Text>
       </FlexCenter>
 
