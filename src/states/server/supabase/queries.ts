@@ -1,5 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCart, getItem, getMarkets, getOrderItems, getOrderSheets, getStores } from "./api";
+import {
+  getCart,
+  getItem,
+  getMarkets,
+  getOrderItems,
+  getOrderSheet,
+  getOrderSheets,
+  getStores
+} from "./api";
 import { SupabaseKey } from "./key";
 
 export const useGetMarketsQuery = () => {
@@ -31,6 +39,14 @@ export const useGetOrderItemsQuery = (sheetId: string) => {
     queryKey: SupabaseKey.getOrderItems(sheetId),
     queryFn: () => getOrderItems(sheetId),
     initialData: [],
+    enabled: !!sheetId
+  });
+};
+
+export const useGetOrderSheetQuery = (sheetId: string) => {
+  return useQuery({
+    queryKey: SupabaseKey.getOrderSheet(sheetId),
+    queryFn: () => getOrderSheet(sheetId),
     enabled: !!sheetId
   });
 };

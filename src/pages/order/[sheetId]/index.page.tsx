@@ -1,15 +1,17 @@
 import styled from "@emotion/styled";
+import dayjs from "dayjs";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Row } from "~/components/Commons";
-import { useGetOrderItemsQuery } from "~/states/server";
-import { Flex, FlexColumn, Grid, Text, flex } from "~/styles/mixins";
+import { useGetOrderItemsQuery, useGetOrderSheetQuery } from "~/states/server";
+import { Flex, FlexCenter, FlexColumn, Grid, Text, flex } from "~/styles/mixins";
 
 const OrderDetail = () => {
   const router = useRouter();
 
   const sheetId = router.query.sheetId as string;
 
+  const { data: sheet } = useGetOrderSheetQuery(sheetId);
   const { data: sheetItems } = useGetOrderItemsQuery(sheetId);
 
   sheetItems.sort((a, b) => {
@@ -22,8 +24,14 @@ const OrderDetail = () => {
   const totalPrice = sheetItems.reduce((acc, item) => (acc += item.price * item.quantity), 0);
   const totalCount = sheetItems.reduce((acc, item) => (acc += item.quantity), 0);
 
+  if (!sheet) return;
+
   return (
     <FlexColumn>
+      <FlexCenter>
+        <Text size="heading3">{dayjs(sheet.createdAt).format("YYYY년 MM년 DD일 hh시 mm분")}</Text>
+      </FlexCenter>
+
       <Row isTitle>
         <Grid column={5} align="center" justify="center" style={{ height: "40px" }}>
           <Text>이미지</Text>
