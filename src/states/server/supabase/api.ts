@@ -48,3 +48,17 @@ export const insertCart = async (item: CartInsert) => {
 
   if (error) throw error;
 };
+
+export const getCart = async () => {
+  const { data, error } = await supabase.from("carts").select("*");
+
+  if (error) throw error;
+
+  return data;
+};
+
+export const deleteCart = async (id: string) => {
+  const { error } = await supabase.from("carts").delete().eq("id", id);
+
+  if (error) throw error;
+};
