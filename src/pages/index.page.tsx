@@ -25,9 +25,9 @@ export default function Home() {
       {items
         .sort((a, b) => {
           if (sort) {
-            return a.quantity - b.quantity;
-          } else {
             return a.itemName.localeCompare(b.itemName);
+          } else {
+            return a.quantity - b.quantity;
           }
         })
         .map((item) => (
