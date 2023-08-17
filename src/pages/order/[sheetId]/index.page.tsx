@@ -11,12 +11,13 @@ import {
   SupabaseKey,
   useDeleteOrderMutate,
   useGetOrderItemsQuery,
-  useGetOrderSheetQuery
+  useGetOrderSheetQuery,
+  useUpdateOrderItemMutate
 } from "~/states/server";
 import { Flex, FlexCenter, FlexColumn, Grid, Text, flex } from "~/styles/mixins";
 
 const OrderDetail = () => {
-  const { confirm } = useDialog();
+  const { confirm, toast } = useDialog();
   const { mount } = useModal();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -34,11 +35,26 @@ const OrderDetail = () => {
     }
   });
 
+  const { mutate: updateOrderMutate } = useUpdateOrderItemMutate({
+    onSuccess: (_, updated) => {
+      queryClient.invalidateQueries(SupabaseKey.getOrderItems(sheetId));
+
+      toast({ type: "success", message: `${updated.item.isArrived ? "입고" : "취소"} 완료` });
+    },
+    onError: () => {
+      toast({ type: "success", message: "입고 실패" });
+    }
+  });
+
   sheetItems.sort((a, b) => {
     const nameA = a.items?.stores?.markets?.name || "";
     const nameB = b.items?.stores?.markets?.name || "";
 
     return nameA.localeCompare(nameB);
+  });
+
+  sheetItems.sort((a, b) => {
+    return a.itemName.localeCompare(b.itemName);
   });
 
   const totalPrice = sheetItems.reduce((acc, item) => (acc += item.price * item.quantity), 0);
@@ -54,36 +70,38 @@ const OrderDetail = () => {
 
       <FlexColumn ref={ref}>
         <Row isTitle>
-          <Grid column={6} align="center" justify="center" style={{ height: "40px" }}>
-            <Text>이미지</Text>
+          <Grid column={7} align="center" justify="center" style={{ height: "40px" }}>
+            <Text>사진</Text>
             <Text>품번</Text>
             <Text>분류</Text>
             <Text>가격</Text>
             <Text>수량</Text>
             <Text>삭제</Text>
+            <Text>입고</Text>
           </Grid>
         </Row>
 
-        {sheetItems.map(({ id, imageUrl, itemName, variationName, price, quantity, items }) => {
-          return (
-            <Row key={id}>
-              <Grid column={6} align="center" justify="center">
-                <Flex>
-                  <ItemImage imageUrl={imageUrl} />
-                </Flex>
-                <Text>{itemName}</Text>
-                <Text>{variationName === "定価" ? "-" : variationName}</Text>
-                <Text>{price.toLocaleString()}</Text>
-                <Text
-                  onClick={() =>
-                    mount(<EditQuantityOrderForm sheetId={sheet.id} orderItemId={id} />, {
-                      id: EDIT_QUANTITY_ORDER
-                    })
-                  }
-                >
-                  {quantity.toLocaleString()}
-                </Text>
-                <Text>
+        {sheetItems.map(
+          ({ id, imageUrl, itemName, variationName, price, quantity, items, isArrived }) => {
+            return (
+              <Row key={id}>
+                <Grid column={7} align="center" justify="center">
+                  <Flex>
+                    <ItemImage imageUrl={imageUrl} />
+                  </Flex>
+                  <Text>{itemName}</Text>
+                  <Text>{variationName === "定価" ? "-" : variationName}</Text>
+                  <Text>{price.toLocaleString()}</Text>
+                  <Text
+                    onClick={() =>
+                      mount(<EditQuantityOrderForm sheetId={sheet.id} orderItemId={id} />, {
+                        id: EDIT_QUANTITY_ORDER
+                      })
+                    }
+                  >
+                    {quantity.toLocaleString()}
+                  </Text>
+
                   <Button
                     variant="secondary"
                     size="small"
@@ -95,19 +113,29 @@ const OrderDetail = () => {
                   >
                     삭제
                   </Button>
-                </Text>
-              </Grid>
 
-              {items?.stores && items.stores.markets && (
-                <Flex style={{ padding: "8px 16px" }} gap={12}>
-                  <Text>{items.stores.markets.name}</Text>
-                  <Text>{items.stores.name}</Text>
-                  <Text>{items.stores.address}</Text>
-                </Flex>
-              )}
-            </Row>
-          );
-        })}
+                  <Button
+                    variant={isArrived ? "secondary" : "primary"}
+                    size="small"
+                    onClick={async () => {
+                      updateOrderMutate({ id, item: { isArrived: !isArrived } });
+                    }}
+                  >
+                    {isArrived ? "취소" : "입고"}
+                  </Button>
+                </Grid>
+
+                {items?.stores && items.stores.markets && (
+                  <Flex style={{ padding: "8px 16px" }} gap={12}>
+                    <Text>{items.stores.markets.name}</Text>
+                    <Text>{items.stores.name}</Text>
+                    <Text>{items.stores.address}</Text>
+                  </Flex>
+                )}
+              </Row>
+            );
+          }
+        )}
       </FlexColumn>
 
       <Container>

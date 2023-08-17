@@ -33,7 +33,7 @@ export const Text = styled.span<{
   textAlign?: CSSProperties["textAlign"];
   whiteSpace?: CSSProperties["whiteSpace"];
 }>`
-  ${({ size = "paragraph2" }) => text(size)}
+  ${({ size = "paragraph3" }) => text(size)}
 
   ${({
     theme,

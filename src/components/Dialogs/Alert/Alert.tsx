@@ -23,7 +23,9 @@ export const Alert = ({
       </Text>
 
       <Flex>
-        <Button onClick={onConfirm}>{confirmLabel}</Button>
+        <Button size="small" onClick={onConfirm}>
+          {confirmLabel}
+        </Button>
       </Flex>
     </Dialogs>
   );

@@ -25,9 +25,11 @@ export const Confirm = ({
       </Text>
 
       <Flex gap={8}>
-        <Button onClick={onConfirm}>{confirmLabel}</Button>
+        <Button size="small" onClick={onConfirm}>
+          {confirmLabel}
+        </Button>
 
-        <Button variant="secondary" onClick={onCancel}>
+        <Button size="small" variant="secondary" onClick={onCancel}>
           {cancelLabel}
         </Button>
       </Flex>
