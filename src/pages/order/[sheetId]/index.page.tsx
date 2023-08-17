@@ -48,13 +48,20 @@ const OrderDetail = () => {
   });
 
   sheetItems.sort((a, b) => {
+    const placeA = a.items?.stores?.markets?.place || "";
+    const placeB = b.items?.stores?.markets?.place || "";
+
+    if (placeA !== placeB) {
+      return placeB.localeCompare(placeA);
+    }
+
     const nameA = a.items?.stores?.markets?.name || "";
     const nameB = b.items?.stores?.markets?.name || "";
 
-    return nameA.localeCompare(nameB);
-  });
+    if (nameA !== nameB) {
+      return nameA.localeCompare(nameB);
+    }
 
-  sheetItems.sort((a, b) => {
     return a.itemName.localeCompare(b.itemName);
   });
 
