@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 import { Button, ItemImage, Row } from "~/components/Commons";
@@ -129,7 +130,15 @@ const OrderDetail = () => {
                   <Flex style={{ padding: "8px 16px" }} gap={12}>
                     <Text>{items.stores.markets.name}</Text>
                     <Text>{items.stores.name}</Text>
-                    <Text>{items.stores.address}</Text>
+                    <Text>
+                      {items.stores.address.match(/https?:\/\/[^\s]+/g) ? (
+                        <Link href={items.stores.address} target="_blank">
+                          {items.stores.address}
+                        </Link>
+                      ) : (
+                        items.stores.address
+                      )}
+                    </Text>
                   </Flex>
                 )}
               </Row>
