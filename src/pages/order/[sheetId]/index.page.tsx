@@ -134,7 +134,7 @@ const OrderDetail = () => {
                 </Grid>
 
                 {items?.stores && items.stores.markets && (
-                  <Flex style={{ padding: "8px 16px" }} gap={12}>
+                  <Flex style={{ padding: "8px 16px", flexWrap: "wrap" }} gap={12}>
                     <Text>{items.stores.markets.name}</Text>
                     <Text>{items.stores.name}</Text>
                     <Text>
