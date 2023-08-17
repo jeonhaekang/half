@@ -3,7 +3,7 @@ export interface Item {
   itemId: string;
   itemName: string;
   variationName: string;
-  price: number;
   imageUrl: string | null;
   quantity: number;
+  orderQuantity: number;
 }

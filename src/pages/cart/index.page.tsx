@@ -74,7 +74,7 @@ const Cart = () => {
                 <ItemImage imageUrl={item.imageUrl} />
               </Flex>
               <Text>{item.itemName}</Text>
-              <Text>{item.variationName}</Text>
+              <Text>{item.variationName === "定価" ? "-" : item.variationName}</Text>
               <Text>{item.price}</Text>
               <Text>{item.quantity}</Text>
               <Button

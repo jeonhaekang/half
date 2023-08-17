@@ -17,8 +17,8 @@ export default function Home() {
           <Text>이미지</Text>
           <Text>품번</Text>
           <Text>구분</Text>
-          <Text>가격</Text>
           <Text onClick={setSort.toggle}>재고</Text>
+          <Text>주문 재고</Text>
         </Grid>
       </Row>
 
@@ -37,9 +37,9 @@ export default function Home() {
                 <ItemImage imageUrl={item.imageUrl} />
               </Flex>
               <Text>{item.itemName}</Text>
-              <Text>{item.variationName}</Text>
-              <Text>{item.price}</Text>
+              <Text>{item.variationName === "定価" ? "-" : item.variationName}</Text>
               <Text>{item.quantity}</Text>
+              <Text>{item.orderQuantity}</Text>
             </Grid>
           </Row>
         ))}

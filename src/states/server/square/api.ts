@@ -1,5 +1,6 @@
 import axios from "axios";
 import { InventoryCount } from "square";
+import { supabase } from "../config";
 import { Item } from "./types";
 
 export const getBatchInventories = async (variationIds: string[]) => {
@@ -33,6 +34,21 @@ export const getCatalogWithVariations = async () => {
     inventoryMap.set(inventory.catalogObjectId, Number(inventory.quantity))
   );
 
+  const { data: orders, error } = await supabase.from("orders").select("*").eq("isArrived", false);
+
+  if (error) throw error;
+
+  const orderQuantity = orders.reduce((acc, order) => {
+    if (!acc[order.itemId]) {
+      acc[order.itemId] = {};
+    }
+
+    acc[order.itemId][order.variationName] =
+      (acc[order.itemId][order.variationName] || 0) + order.quantity;
+
+    return acc;
+  }, {} as { [itemName: string]: { [variationName: string]: number } });
+
   const variations = items.reduce((acc, item) => {
     item.variations?.forEach((variation) => {
       acc.push({
@@ -40,9 +56,9 @@ export const getCatalogWithVariations = async () => {
         itemId: item.id,
         itemName: item.name,
         variationName: variation.name,
-        price: variation.priceMoney?.amount ?? 0,
         imageUrl: item.images?.[0].url ?? null,
-        quantity: inventoryMap.get(variation.id) ?? 0
+        quantity: inventoryMap.get(variation.id) ?? 0,
+        orderQuantity: orderQuantity?.[item.id]?.[variation.name] ?? 0
       });
     });
 

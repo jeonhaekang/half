@@ -72,7 +72,7 @@ const OrderDetail = () => {
                   <ItemImage imageUrl={imageUrl} />
                 </Flex>
                 <Text>{itemName}</Text>
-                <Text>{variationName}</Text>
+                <Text>{variationName === "定価" ? "-" : variationName}</Text>
                 <Text>{price.toLocaleString()}</Text>
                 <Text
                   onClick={() =>

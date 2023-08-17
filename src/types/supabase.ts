@@ -128,6 +128,7 @@ export interface Database {
           createdAt: string
           id: string
           imageUrl: string | null
+          isArrived: boolean
           itemId: string
           itemName: string
           price: number
@@ -139,6 +140,7 @@ export interface Database {
           createdAt?: string
           id?: string
           imageUrl?: string | null
+          isArrived?: boolean
           itemId: string
           itemName: string
           price: number
@@ -150,6 +152,7 @@ export interface Database {
           createdAt?: string
           id?: string
           imageUrl?: string | null
+          isArrived?: boolean
           itemId?: string
           itemName?: string
           price?: number
