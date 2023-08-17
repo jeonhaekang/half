@@ -126,3 +126,9 @@ export const updateOrderItem = async ({ id, item }: { id: string; item: OrderUpd
 
   if (error) throw error;
 };
+
+export const deleteOrderSheet = async (sheetId: string) => {
+  const { error } = await supabase.from("orderSheets").delete().eq("id", sheetId);
+
+  if (error) throw error;
+};

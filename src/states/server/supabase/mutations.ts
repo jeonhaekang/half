@@ -4,6 +4,7 @@ import {
   clearCart,
   deleteCart,
   deleteOrderItem,
+  deleteOrderSheet,
   insertCart,
   insertItem,
   insertMarkets,
@@ -89,6 +90,15 @@ export const useUpdateOrderItemMutate = (
 ) => {
   return useMutation({
     mutationFn: updateOrderItem,
+    ...options
+  });
+};
+
+export const useDeleteOrderSheetMutate = (
+  options?: PickMutationOptions<typeof deleteOrderSheet, "onSuccess" | "onError">
+) => {
+  return useMutation({
+    mutationFn: deleteOrderSheet,
     ...options
   });
 };
