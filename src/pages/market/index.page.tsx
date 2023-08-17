@@ -12,7 +12,8 @@ import { uuid } from "~/utils";
 const INIT_MARKET = {
   data: {
     name: "",
-    address: ""
+    address: "",
+    place: ""
   },
   isValid: false
 };

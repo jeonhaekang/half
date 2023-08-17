@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useEffect } from "react";
-import { Button, Input, Label } from "~/components/Commons";
+import { useEffect, useState } from "react";
+import { Button, Input, Label, Menu, MenuAnchor, MenuItem, MenuList } from "~/components/Commons";
 import { useInputForm } from "~/hooks";
 import { flex } from "~/styles/mixins";
 
@@ -9,9 +9,11 @@ export interface MarketData {
   data: {
     name: string;
     address: string;
+    place: string;
   };
   isValid: boolean;
 }
+export const places = ["동대문", "남대문", "기타"] as const;
 
 export const MarketForm = ({
   onChange,
@@ -20,14 +22,36 @@ export const MarketForm = ({
   onChange: (market: MarketData) => void;
   onRemove?: VoidFunction;
 }) => {
+  const [place, setPlace] = useState<"동대문" | "남대문" | "기타" | null>(null);
+
+  console.log(place);
+
   const { data, register, isValid } = useInputForm({ name: "", address: "" });
 
   useEffect(() => {
-    onChange({ data, isValid });
+    if (place) {
+      onChange({ data: { ...data, place }, isValid });
+    }
   }, [data, isValid, onChange]);
 
   return (
     <Container>
+      <Menu>
+        <MenuAnchor>
+          <Label title={"상가"} full required>
+            <Input placeholder="선택해주세요." value={place ?? ""} readOnly />
+          </Label>
+        </MenuAnchor>
+
+        <MenuList full>
+          {places.map((_place) => (
+            <MenuItem key={_place} onClick={() => setPlace(_place)}>
+              {_place}
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Menu>
+
       <Label title="상가명" required>
         <Input {...register("name")} placeholder="ex) 디오트" required />
       </Label>

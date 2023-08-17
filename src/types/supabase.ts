@@ -108,18 +108,21 @@ export interface Database {
           createdAt: string
           id: string
           name: string
+          place: string
         }
         Insert: {
           address: string
           createdAt?: string
           id?: string
           name: string
+          place?: string
         }
         Update: {
           address?: string
           createdAt?: string
           id?: string
           name?: string
+          place?: string
         }
         Relationships: []
       }
