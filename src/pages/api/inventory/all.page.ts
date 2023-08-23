@@ -12,7 +12,8 @@ const getAllInventories = async (
     result: { counts: _counts = [], cursor: _cursor }
   } = await square.inventoryApi.batchRetrieveInventoryCounts({
     cursor,
-    catalogObjectIds: variationIds
+    catalogObjectIds: variationIds,
+    states: ["IN_STOCK"]
   });
 
   if (_cursor) {
