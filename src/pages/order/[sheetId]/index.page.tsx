@@ -146,6 +146,7 @@ const OrderDetail = () => {
                         items.stores.address
                       )}
                     </Text>
+                    <Text>{items.stores.phone}</Text>
                   </Flex>
                 )}
               </Row>
