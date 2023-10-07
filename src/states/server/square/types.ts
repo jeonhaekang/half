@@ -5,5 +5,6 @@ export interface Item {
   variationName: string;
   imageUrl: string | null;
   quantity: number;
+  price: number;
   orderQuantity: number;
 }

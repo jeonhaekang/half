@@ -10,8 +10,16 @@ export default function Home() {
 
   const [sort, setSort] = useBoolean(true);
 
+  const totalCount = items.reduce((acc, item) => acc + item.quantity, 0);
+  const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
   return (
     <FlexColumn>
+      <FlexColumn>
+        <Text>총합 : {totalCount}</Text>
+        <Text>총액 : {totalPrice.toLocaleString()}円</Text>
+      </FlexColumn>
+
       <Row isTitle>
         <Grid column={5} align="center" justify="center" style={{ height: "40px" }}>
           <Text>이미지</Text>

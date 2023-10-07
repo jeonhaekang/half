@@ -58,6 +58,7 @@ export const getCatalogWithVariations = async () => {
         variationName: variation.name,
         imageUrl: item.images?.[0].url ?? null,
         quantity: inventoryMap.get(variation.id) ?? 0,
+        price: variation.priceMoney?.amount ?? 0,
         orderQuantity: orderQuantity?.[item.id]?.[variation.name] ?? 0
       });
     });

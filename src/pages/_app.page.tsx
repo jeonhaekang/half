@@ -19,12 +19,15 @@ const App = ({ Component, pageProps }: AppProps) => {
       <ThemeProvider theme={darkTheme}>
         <Container>
           <GlobalStyle />
+
           <FlexCenter style={{ padding: "12px 16px" }}>
             <Link href="/">
               <Image src={"/images/logo.png"} alt="로고" width={84} height={40} />
             </Link>
           </FlexCenter>
+
           <Component {...pageProps} />
+
           <Position position="fixed" bottom={12} right={12}>
             <Menu>
               <MenuAnchor>
